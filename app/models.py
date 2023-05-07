@@ -48,3 +48,57 @@ class Patient(models.Model):
 
     def __str__(self):
         return self.name
+
+class Diagnosis(models.Model):
+    patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    opening_date = models.DateField(auto_now_add=True, null=True)
+    mode_choices = (
+        ('New Diagnosis', 'New Diagnosis'),
+        ('Follow Up Diangosis', 'Follow Up Diagnosis'),
+    )
+    mode_of_diagnosis = models.CharField(max_length=50, choices=mode_choices)
+    select = (
+        ('RDT', 'RDT'),
+        ('Microscopy', 'Microscopy'),
+        ('PCR', 'PCR'),
+    )
+    dianosis_type = models.CharField(max_length=50, choices=select)
+    result_choice = (
+        ('Positive', 'Positive'),
+        ('Negative', 'Negative'),
+    )
+    results = models.CharField(max_length=50, choices=result_choice)
+    malaria_choices = (
+        ('P. falciparum', 'P. falciparum'),
+        ('P. vivae', 'P. vivae'),
+        ('P. ovale', 'P. ovale'),
+        ('P. malariae', 'P. malariae'),
+    )
+    malaria_type = models.CharField(max_length=50, choices=malaria_choices)
+    parasitemia_load = models.CharField(max_length=50)
+    comment = models.TextField(max_length=5000)
+    date_created = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.patient_id.name
+
+class Morbidity(models.Model):
+    patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    severity_choice = (
+        ('Mild (uncomplecated)', 'Mild (uncomplecated)'),
+        ('Moderate (uncomplecated)', 'Moderate (uncomplecated)'),
+        ('Severe (complecated)', 'Severe (complecated)'),
+    )
+    severity = models.CharField(max_length=50, choices=severity_choice)
+    mode_choices = (
+        ('Hospitilized', 'Hospitalized'),
+        ('Home Treatment', 'Home Treatment'),
+    )
+    mode_of_admission = models.CharField(max_length=50, choices=mode_choices)
+    comment = models.TextField(max_length=5000)
+    date_created = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.patient_id.name
+
+class Treatment(models.Model):
