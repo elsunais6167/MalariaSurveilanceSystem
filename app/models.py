@@ -102,3 +102,33 @@ class Morbidity(models.Model):
         return self.patient_id.name
 
 class Treatment(models.Model):
+    patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    treat_choice = (
+        ('ACTs', 'ACTs'),
+        ('Non ACTs', 'Non ACTs'),
+        ('Others', 'Others'),
+    )
+    treatment_type = models.CharField(max_length=50, choices=treat_choice)
+    period = (
+        ('3 Days', '3 Days'),
+        ('7 Days', '7 Days'),
+        ('14 Days', '14 Days'),
+    )
+    treatment_period = models.CharField(max_length=50, choices=period)
+    further_treatment = models.BooleanField()
+    follow_up = models.ForeignKey(Diagnosis, on_delete=models.CASCADE)
+    comment = models.TextField(max_length=5000)
+    date_created = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.patient_id.name
+    
+class Mortality(models.Model):
+    patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    select = (
+        ('Mortality', 'Mortality'),
+        ('Healed/Discharge', 'Healed/Discharge'),
+    )
+    status = models.CharField(max_length=50)
+    date = models.DateField()
+    date_created = models.DateField(auto_now_add=True) 
