@@ -132,3 +132,4 @@ class Mortality(models.Model):
     status = models.CharField(max_length=50, choices=select)
     date = models.DateField()
     date_created = models.DateField(auto_now_add=True) 
+
