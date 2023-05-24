@@ -17,6 +17,9 @@ class Station(models.Model):
     select = (
         ('Hospital', 'Hospital'),
         ('Clinic', 'Clinic'),
+        ('Laboratory', 'Laboratory'),
+        ('Mass Screening', 'Mass Screening'),
+        ('Community Camp', 'Community Camp'),
     )
     name = models.CharField(max_length=50)
     category = models.CharField(max_length=50, choices=select) 
@@ -40,15 +43,24 @@ class Patient(models.Model):
     age = models.CharField(max_length=50)
     care_centre = models.ForeignKey(Station, on_delete=models.CASCADE)
     address = models.CharField(max_length=200)
-    family_size = models.IntegerField()
-    no_of_children = models.IntegerField()
-    sleeping_in_screen = models.BooleanField()
-    use_of_insecticide = models.BooleanField()
     opening_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.name
 
+class Household(models.Model):
+    patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    family_size = models.IntegerField()
+    no_of_children = models.IntegerField()
+    sleeping_in_screen = models.BooleanField()
+    drainage = (
+        ('Open', 'Open'),
+        ('Closed', 'Closed'),
+    )
+    drainage_system = models.CharField(max_length=50, choices=drainage)
+
+    def __str__(self):
+        return self.patient_id.name
 class Diagnosis(models.Model):
     patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
     opening_date = models.DateField(auto_now_add=True, null=True)
@@ -58,9 +70,11 @@ class Diagnosis(models.Model):
     )
     mode_of_diagnosis = models.CharField(max_length=50, choices=mode_choices)
     select = (
+        ('Physical Examination', 'Physical Examination'),
         ('RDT', 'RDT'),
         ('Microscopy', 'Microscopy'),
         ('PCR', 'PCR'),
+        ('Combination', 'Combination'),
     )
     dianosis_type = models.CharField(max_length=50, choices=select)
     result_choice = (
@@ -133,3 +147,18 @@ class Mortality(models.Model):
     date = models.DateField()
     date_created = models.DateField(auto_now_add=True) 
 
+class Preventive(models.Model):
+    patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    use_of_mosquito_net = models.BooleanField()
+    use_of_insecticide = models.BooleanField()
+    use_of_repellant = models.BooleanField()
+    days = (
+        ('Weekly', 'Weekly'),
+        ('Monthly', 'Monthly'),
+        ('6 Months', '6 Months'),
+        ('Annually', 'Annually'),
+    )
+    indoor_residual = models.CharField(max_length=50, choices=days)
+
+    def __str__(self):
+        return self.patient_id.name
