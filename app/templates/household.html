@@ -25,13 +25,13 @@
                     </li>
                 </ul>
                 <div class="card mb-4">
-                    <h5 class="card-header">Add Station</h5>
+                    <h5 class="card-header">Household</h5>
                     <!-- Account -->
 
                 </div>
                 <hr class="my-0" />
                 <div class="card-body">
-                    <form method="POST" action="{% url 'addStation' %}">
+                    <form method="POST" action="{% url 'household' %}">
                         {% csrf_token %}
                         {{form.as_p}}
                         <div class="mt-2">
@@ -45,16 +45,5 @@
         </div>
     </div>
 </div>
-
-<script>
-    // JavaScript code to fetch and populate the gis_location field
-    if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            document.getElementById('id_gis_location').value = latitude + ',' + longitude;
-        });
-    }
-</script>
 <!-- / Content -->
 {% endblock content %}
