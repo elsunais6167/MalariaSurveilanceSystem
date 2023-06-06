@@ -1,11 +1,19 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 #models
 from .models import Patient
 from .models import Station
+from .models import Morbidity
+from .models import Mortality
+from .models import Preventive
+from .models import Household
+from .models import Diagnosis
+from .models import Treatment
 
 #forms
-from .forms import HouseholdForm, PreventionForm, TreatmentForm
+from .forms import HouseholdForm
+from .forms import PreventionForm
+from .forms import TreatmentForm
 from .forms import PatientForm
 from .forms import StationForm
 from .forms import DianosisForm
@@ -146,3 +154,21 @@ def addPreventive(request):
     }
 
     return render(request, 'prevention.html', context)
+
+def adminDash(request):
+    station_list = Station.objects.all()
+    
+
+    context = {
+        'station_list': station_list,
+        
+    }
+
+    return render(request, 'admin_dash.html', context)
+
+def stationDash(request, pk):
+    station_id = get_object_or_404(Station, id=pk)
+    context = {
+
+    }
+    return render(request, 'station_dash.html', context)

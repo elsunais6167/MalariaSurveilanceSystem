@@ -11,4 +11,6 @@ urlpatterns = [
     path('add-mortality/', views.addMortality, name='add-mortality'),
     path('add-treatment/', views.addTreatment, name='add-treatment'),
     path('add-prevention/', views.addPreventive, name='add-prevention'),
+    path('admin-dash/', views.adminDash, name='admin-dash'),
+    path('sta-dash/<str:pk>/', views.stationDash, name='sta-dash'),
 ]
