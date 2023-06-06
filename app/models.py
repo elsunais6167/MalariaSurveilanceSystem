@@ -42,7 +42,7 @@ class Patient(models.Model):
     gender = models.CharField(max_length=50, choices=select)
     age = models.CharField(max_length=50)
     care_centre = models.ForeignKey(Station, on_delete=models.CASCADE)
-    address = models.CharField(max_length=200)
+    address = models.TextField(max_length=200)
     opening_date = models.DateField(auto_now_add=True)
 
     def __str__(self):

@@ -8,6 +8,7 @@ from .models import Station
 from .forms import HouseholdForm
 from .forms import PatientForm
 from .forms import StationForm
+from .forms import DianosisForm
 
 # Create your views here.
 def index(request):
@@ -41,9 +42,9 @@ def addStation(request):
         form = StationForm(request.POST)
         if form.is_valid():
             #user = request.user
-            # Create a new product and set the user field
+            
             station = form.save(commit=False)
-            #customer.user = user
+            #station.user = user
             station.save()
             return redirect('addStation')
 
@@ -52,3 +53,34 @@ def addStation(request):
     }
 
     return render(request, 'station.html', context)
+
+def addPatient(request):
+    form = PatientForm()
+    if request.method == "POST":
+        form = PatientForm(request.POST)
+        if form.is_valid():
+            #user = request.user
+            patient = form.save(commit=False)
+            #customer.user = user
+            patient.save()
+            return redirect('home')
+
+    context = {
+        'form': form, 
+    }
+
+    return render(request, 'patient.html', context)
+
+def addDiagnosis(request):
+    form = DianosisForm()
+    if request.method == 'POST':
+        form = DianosisForm(request.POST)
+        if form.is_valid():
+            diagnosis = form.save(commit=False)
+            diagnosis.save()
+            return redirect('home')
+    context = {
+        'form':form
+    }
+
+    return render(request, 'diagnosis.html', context)
