@@ -5,10 +5,12 @@ from .models import Patient
 from .models import Station
 
 #forms
-from .forms import HouseholdForm
+from .forms import HouseholdForm, PreventionForm, TreatmentForm
 from .forms import PatientForm
 from .forms import StationForm
 from .forms import DianosisForm
+from .forms import MorbidityForm
+from .forms import MortalityForm
 
 # Create your views here.
 def index(request):
@@ -84,3 +86,63 @@ def addDiagnosis(request):
     }
 
     return render(request, 'diagnosis.html', context)
+
+def addMorbidity(request):
+    form = MorbidityForm()
+    if request.method == 'POST':
+        form = MorbidityForm(request.POST)
+        if form.is_valid():
+            morbidity = form.save(commit=False)
+            morbidity.save()
+            return redirect('home')
+        
+    context = {
+        'form':form
+    }
+
+    return render(request, 'morbidity.html', context)
+
+def addMortality(request):
+    form = MortalityForm()
+    if request.method == 'POST':
+        form = MortalityForm(request.POST)
+        if form.is_valid():
+            mortality = form.save(commit=False)
+            mortality.save()
+            return redirect('home')
+        
+    context = {
+        'form':form
+    }
+
+    return render(request, 'mortality.html', context)
+
+def addTreatment(request):
+    form = TreatmentForm()
+    if request.method == 'POST':
+        form = TreatmentForm(request.POST)
+        if form.is_valid():
+            treatment = form.save(commit=False)
+            treatment.save()
+            return redirect('home')
+        
+    context = {
+        'form': form
+    }
+
+    return render(request, 'treatment.html', context)
+
+def addPreventive(request):
+    form = PreventionForm()
+    if request.method == 'POST':
+        form = PreventionForm(request.POST)
+        if form.is_valid():
+            prevention = form.save(commit=False)
+            prevention.save()
+            return redirect('home')
+        
+    context = {
+        'form': form
+    }
+
+    return render(request, 'prevention.html', context)
