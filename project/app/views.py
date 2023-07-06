@@ -41,7 +41,7 @@ def is_user_admin(user):
     return hasattr(user, 'user_admin')
 
 def is_station_admin(user):
-    return hasattr(user, 'station')
+    return hasattr(user, 'station_admin')
 
 def login_user(request):
     error_message = ""
@@ -52,7 +52,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            if hasattr(user, 'station'):
+            if hasattr(user, 'station_admin'):
                 return redirect('sta_dash')
             elif hasattr(user, 'user_admin'):
                 return redirect('admin-dash')
