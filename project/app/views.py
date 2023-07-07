@@ -78,13 +78,6 @@ def user_signup(request):
     }
     return render(request, 'signup.html', context)
 
-def UserDash(request):
-
-    context = {
-
-    }
-
-    return render(request, 'userdash.html', context)
 
 def household(request):
     form = HouseholdForm()

@@ -13,7 +13,6 @@ urlpatterns = [
     path('add-prevention/', views.addPreventive, name='add-prevention'),
     path('admin-dash/', views.adminDash, name='admin-dash'),
     path('sta-dash/<str:pk>/', views.stationDash, name='sta-dash'),
-    path('user-dash/', views.UserDash, name="user-dash"),
     path('add-user/', views.user_signup, name='add-user'),
     path('user-list/', views.user_list, name='user-list'),
     path('make-admin/<str:pk>/', views.make_admin, name='make-admin'),
