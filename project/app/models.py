@@ -28,7 +28,7 @@ class Station_admin(models.Model):
         return self.name
 
 class Station(models.Model):
-    user = models.ForeignKey(User_admin, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     select = (
         ('Hospital', 'Hospital'),
         ('Clinic', 'Clinic'),
@@ -40,7 +40,7 @@ class Station(models.Model):
     category = models.CharField(max_length=50, choices=select) 
     gis_location = models.CharField(max_length=50)
     address = models.TextField(max_length=200)
-    supervisor = models.ForeignKey(Station_admin, on_delete=models.CASCADE)
+    supervisor = models.TextField(max_length=200)
     phone = models.IntegerField()
     email = models.EmailField(max_length=200)
     date_created = models.DateField(auto_now_add=True)

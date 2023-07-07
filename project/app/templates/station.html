@@ -7,23 +7,36 @@
 
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Manage</span> Stations</h4>
-
+        <!-- Toast with Placements -->
+        <div class="bs-toast toast toast-placement-ex m-2" role="alert" aria-live="assertive" aria-atomic="true"
+            data-delay="2000">
+        </div>
+        <!-- Content -->
         <div class="row">
             <div class="col-md-12">
                 <ul class="nav nav-pills flex-column flex-md-row mb-3">
                     <li class="nav-item">
-                        <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-user me-1"></i>
-                            Station</a>
+                        <a class="nav-link" href="{%url 'admin-dash' %}"><i class="bx bxl-telegram me-1"></i>
+                            List of Stations</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="pages-account-settings-notifications.html"><i
-                                class="bx bx-bell me-1"></i> Add a New Station</a>
+                        <a class="nav-link" href="{% url 'add-user' %}"><i class='bx bx-add-to-queue'></i> Add a New
+                            User</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="pages-account-settings-connections.html"><i
-                                class="bx bx-link-alt me-1"></i> Users </a>
+                        <a class="nav-link active" href="javascript:void(0);"><i class="bx bxs-building-house"></i> Add a New
+                            Station
+                        </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'user-list' %}"><i class="bx bx-list-ul"></i>
+                            List of Users</a>
+                    </li>
+
                 </ul>
+
+
+
                 <div class="card mb-4">
                     <h5 class="card-header">Add Station</h5>
                     <!-- Account -->
@@ -49,7 +62,7 @@
 <script>
     // JavaScript code to fetch and populate the gis_location field
     if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(function(position) {
+        navigator.geolocation.getCurrentPosition(function (position) {
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
             document.getElementById('id_gis_location').value = latitude + ',' + longitude;

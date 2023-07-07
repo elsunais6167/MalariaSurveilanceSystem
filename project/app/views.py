@@ -29,23 +29,16 @@ from .forms import MorbidityForm
 from .forms import MortalityForm
 
 # Create your views here.
-def index(request):
-
-    context = {
-
-    }
-
-    return render(request, 'index.html', context)
-
 def is_user_admin(user):
     return hasattr(user, 'user_admin')
 
 def is_station_admin(user):
     return hasattr(user, 'station_admin')
 
-def login_user(request):
+def index(request):
     error_message = ""
     login_error = ""
+
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -53,20 +46,19 @@ def login_user(request):
         if user is not None:
             login(request, user)
             if hasattr(user, 'station_admin'):
-                return redirect('sta_dash')
+                return redirect('sta-admin')
             elif hasattr(user, 'user_admin'):
                 return redirect('admin-dash')
             else:
-                return redirect('user-dash')
+                error_message = 'Your login details are correct. However, you have not been assigned a Mosque to Manage. Please contact state coordinator'
         else:
             login_error ='Invalid Username or Password, Please Try Again!'
             
-    return render(request, 'login.html', {'error_message': error_message, 'login_error': login_error})
+    return render(request, 'index.html', {'error_message': error_message, 'login_error': login_error})
 
 
 def loggingout(request):
     logout(request)
-
     return HttpResponseRedirect('/login/')
 
 @login_required
@@ -93,6 +85,7 @@ def UserDash(request):
     }
 
     return render(request, 'userdash.html', context)
+
 def household(request):
     form = HouseholdForm()
     if request.method == "POST":
@@ -110,17 +103,18 @@ def household(request):
     }
     return render(request, 'household.html', context)
 
+@login_required
+@user_passes_test(is_user_admin)
 def addStation(request):
     form = StationForm()
     if request.method == "POST":
         form = StationForm(request.POST)
         if form.is_valid():
-            #user = request.user
-            
+            user = request.user
             station = form.save(commit=False)
-            #station.user = user
+            station.user = user
             station.save()
-            return redirect('addStation')
+            return redirect('admin-dash')
 
     context = {
         'form': form, 
@@ -219,6 +213,8 @@ def addPreventive(request):
 
     return render(request, 'prevention.html', context)
 
+@login_required
+@user_passes_test(is_user_admin)
 def adminDash(request):
     station_list = Station.objects.all()
     
@@ -236,3 +232,30 @@ def stationDash(request, pk):
 
     }
     return render(request, 'station_dash.html', context)
+
+@login_required
+def user_list(request):
+    users_list = User.objects.all()
+    context = {
+        'users_list': users_list,
+    }
+
+    return render(request, 'users.html', context)
+
+@login_required
+@user_passes_test(is_user_admin)
+def make_admin(request, pk):
+    user_id = get_object_or_404(User, id=pk)
+
+    context = {
+
+    }
+    return render(request, 'make_admin.html', context)
+
+def station_admin(request):
+
+    context = {
+
+    }
+
+    return render(request, 'station_admin.html', context)

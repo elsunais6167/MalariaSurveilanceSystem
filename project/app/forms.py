@@ -12,14 +12,10 @@ class DateInput(forms.DateInput):
 
 class CreateUserForm(UserCreationForm):
     username = forms.CharField(max_length=70)
-    email = forms.EmailField()
-    first_name = forms.CharField(max_length=70)
-    last_name = forms.CharField(max_length=70) 
-
+    
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name',
-                  'email', 'password1', 'password2']
+        fields = ['username', 'password1', 'password2']
 
 
 class StationForm(ModelForm):
