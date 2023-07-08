@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib import messages
 
-#models
+# models
 from .models import Patient
 from .models import Station
 from .models import Morbidity
@@ -16,8 +16,9 @@ from .models import Diagnosis
 from .models import Treatment
 from .models import User_admin
 from .models import Station_admin
+from .models import Profile
 
-#forms
+# forms
 from .forms import CreateUserForm
 from .forms import HouseholdForm
 from .forms import PreventionForm
@@ -27,15 +28,28 @@ from .forms import StationForm
 from .forms import DianosisForm
 from .forms import MorbidityForm
 from .forms import MortalityForm
+from .forms import ProfileForm
+from .forms import MakeAdmin
 
 # Create your views here.
+
+
 def is_user_admin(user):
     return hasattr(user, 'user_admin')
+
 
 def is_station_admin(user):
     return hasattr(user, 'station_admin')
 
+
 def index(request):
+    return render(request, 'index.html')
+
+def loggingout(request):
+    logout(request)
+    return HttpResponseRedirect('/login/')
+
+def login_user(request):
     error_message = ""
     login_error = ""
 
@@ -52,14 +66,10 @@ def index(request):
             else:
                 error_message = 'Your login details are correct. However, you have not been assigned a Mosque to Manage. Please contact state coordinator'
         else:
-            login_error ='Invalid Username or Password, Please Try Again!'
-            
+            login_error = 'Invalid Username or Password, Please Try Again!'
+
     return render(request, 'index.html', {'error_message': error_message, 'login_error': login_error})
 
-
-def loggingout(request):
-    logout(request)
-    return HttpResponseRedirect('/login/')
 
 @login_required
 @user_passes_test(is_user_admin)
@@ -68,33 +78,89 @@ def user_signup(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('user_signup')
+            return redirect('admin-dash')
     else:
         form = CreateUserForm()
-    
-    
+
     context = {
         'form': form,
     }
     return render(request, 'signup.html', context)
-
 
 def household(request):
     form = HouseholdForm()
     if request.method == "POST":
         form = HouseholdForm(request.POST)
         if form.is_valid():
-            #user = request.user
+            # user = request.user
             # Create a new product and set the user field
             house = form.save(commit=False)
-            #customer.user = user
+            # customer.user = user
             house.save()
             return redirect('household')
 
     context = {
-        'form': form, 
+        'form': form,
     }
     return render(request, 'household.html', context)
+
+def profile(request, id):
+    p_id = get_object_or_404(User, id=id)
+    p_id = p_id.id
+    user_id = User.objects.get(id=p_id)
+    form = ProfileForm()
+    if request.method == "POST":
+        form = ProfileForm(request.POST)
+        if form.is_valid():
+            user = user_id
+            # Create a new product and set the user field
+            form = form.save(commit=False)
+            form.user = user
+            form.save()
+            return redirect('user-list')
+
+    context = {
+        'form': form,
+        'p_id': p_id
+    }
+    return render(request, 'profile.html', context)
+
+def update_profile(request, pk):
+    id = int(pk)
+    user_id = User.objects.get(id=pk)
+    form = ProfileForm()
+    if request.method == "POST":
+        form = ProfileForm(request.POST)
+        if form.is_valid():
+            user = user_id
+            # Create a new product and set the user field
+            form = form.save(commit=False)
+            form.user = user
+            form.save()
+            return redirect('user-list')
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'profile.html', context)
+
+def household(request):
+    form = HouseholdForm()
+    if request.method == "POST":
+        form = HouseholdForm(request.POST)
+        if form.is_valid():
+            # user = request.user
+            # Create a new product and set the user field
+            house = form.save(commit=False)
+            # customer.user = user
+            house.save()
+            return redirect('household')
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'household.html', context)
+
 
 @login_required
 @user_passes_test(is_user_admin)
@@ -110,27 +176,29 @@ def addStation(request):
             return redirect('admin-dash')
 
     context = {
-        'form': form, 
+        'form': form,
     }
 
     return render(request, 'station.html', context)
+
 
 def addPatient(request):
     form = PatientForm()
     if request.method == "POST":
         form = PatientForm(request.POST)
         if form.is_valid():
-            #user = request.user
+            # user = request.user
             patient = form.save(commit=False)
-            #customer.user = user
+            # customer.user = user
             patient.save()
             return redirect('home')
 
     context = {
-        'form': form, 
+        'form': form,
     }
 
     return render(request, 'patient.html', context)
+
 
 def addDiagnosis(request):
     form = DianosisForm()
@@ -141,10 +209,11 @@ def addDiagnosis(request):
             diagnosis.save()
             return redirect('home')
     context = {
-        'form':form
+        'form': form
     }
 
     return render(request, 'diagnosis.html', context)
+
 
 def addMorbidity(request):
     form = MorbidityForm()
@@ -154,12 +223,13 @@ def addMorbidity(request):
             morbidity = form.save(commit=False)
             morbidity.save()
             return redirect('home')
-        
+
     context = {
-        'form':form
+        'form': form
     }
 
     return render(request, 'morbidity.html', context)
+
 
 def addMortality(request):
     form = MortalityForm()
@@ -169,12 +239,13 @@ def addMortality(request):
             mortality = form.save(commit=False)
             mortality.save()
             return redirect('home')
-        
+
     context = {
-        'form':form
+        'form': form
     }
 
     return render(request, 'mortality.html', context)
+
 
 def addTreatment(request):
     form = TreatmentForm()
@@ -184,12 +255,13 @@ def addTreatment(request):
             treatment = form.save(commit=False)
             treatment.save()
             return redirect('home')
-        
+
     context = {
         'form': form
     }
 
     return render(request, 'treatment.html', context)
+
 
 def addPreventive(request):
     form = PreventionForm()
@@ -199,43 +271,48 @@ def addPreventive(request):
             prevention = form.save(commit=False)
             prevention.save()
             return redirect('home')
-        
+
     context = {
         'form': form
     }
 
     return render(request, 'prevention.html', context)
 
+
 @login_required
 @user_passes_test(is_user_admin)
 def adminDash(request):
     station_list = Station.objects.all()
-    
 
     context = {
         'station_list': station_list,
-        
+
     }
 
     return render(request, 'admin_dash.html', context)
 
+
 def stationDash(request, pk):
     station_id = get_object_or_404(Station, id=pk)
-    #station = Station.objects.all()
+    # station = Station.objects.all()
     context = {
         'station': station_id
 
     }
     return render(request, 'station_dash.html', context)
 
+
 @login_required
 def user_list(request):
     users_list = User.objects.all()
+    profile = Profile.objects.all()
     context = {
         'users_list': users_list,
+        'profile' : profile
     }
 
     return render(request, 'users.html', context)
+
 
 @login_required
 @user_passes_test(is_user_admin)
@@ -246,6 +323,7 @@ def make_admin(request, pk):
 
     }
     return render(request, 'make_admin.html', context)
+
 
 def station_admin(request):
 

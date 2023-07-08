@@ -10,53 +10,64 @@
     <div class="bs-toast toast toast-placement-ex m-2" role="alert" aria-live="assertive" aria-atomic="true"
       data-delay="2000">
     </div>
-  <!-- Content -->
-  <div class="row">
-    <div class="col-md-12">
+    <!-- Content -->
+    <div class="row">
+      <div class="col-md-12">
         <ul class="nav nav-pills flex-column flex-md-row mb-3">
-            <li class="nav-item">
-                <a class="nav-link" href="{%url 'admin-dash' %}"><i class="bx bxl-telegram me-1"></i>
-                    List of Stations</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'add-user' %}"><i class='bx bx-add-to-queue'></i> Add a New User</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'addStation' %}"><i class="bx bxs-building-house"></i> Add a New Station
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-list-ul"></i>
-                    List of Users</a>
-            </li>
-            
-        </ul>
-  
-    <!-- Toast with Placements -->
-    <!-- Basic Bootstrap Table -->
-    <div class="card">
-      <h5 class="card-header">List of Users</h5>
-      <div class="table-responsive text-nowrap">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Username</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody class="table-border-bottom-0">
-            {% for u in users_list %}
-            <tr>
+          <li class="nav-item">
+            <a class="nav-link" href="{%url 'admin-dash' %}"><i class="bx bxl-telegram me-1"></i>
+              List of Stations</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'add-user' %}"><i class='bx bx-add-to-queue'></i> Add a New User</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'addStation' %}"><i class="bx bxs-building-house"></i> Add a New Station
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-list-ul"></i>
+              List of Users</a>
+          </li>
 
-              <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{u.username}}</strong></td>
-              <td>
-                <a href="{% url 'make-admin' u.id %}" class="btn btn-primary me-2">Make an Admin</a>
-              </td>
-            {% endfor %}
-          </tbody>
-        </table>
+        </ul>
+
+        <!-- Toast with Placements -->
+        <!-- Basic Bootstrap Table -->
+        <div class="card">
+          <h5 class="card-header">List of Users</h5>
+          <div class="table-responsive text-nowrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Name</th>
+                  <th>Phone Number</th>
+                  <th>E-mail</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody class="table-border-bottom-0">
+                {% for u in users_list %}
+                <tr>
+                  <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{u.username}}</strong></td>
+                  <td>
+                    {{u.profile.name}}
+                  </td>
+                  <td>
+                    {{u.profile.phone}}
+                  </td>
+                  <td>
+                    {{u.profile.email}}
+                  </td>
+                  <td>
+                    <a href="{% url 'profile' u.id %}" class="btn btn-primary me-2">Update Profile</a>
+                  </td>
+                  {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-{% endblock content %}
+    {% endblock content %}

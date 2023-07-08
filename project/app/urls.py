@@ -4,6 +4,8 @@ from . import views
 urlpatterns = [
     path('', views.index, name="home"),
     path('household/', views.household, name="household"),
+    path('login/', views.login_user, name='login'),
+    path('logout/', views.loggingout, name='logout'),
     path('addStation/', views.addStation, name="addStation"),
     path('addpatient/', views.addPatient, name='addpatient'),
     path('add-diagnosis/', views.addDiagnosis, name='add-diagnosis'),
@@ -15,6 +17,8 @@ urlpatterns = [
     path('sta-dash/<str:pk>/', views.stationDash, name='sta-dash'),
     path('add-user/', views.user_signup, name='add-user'),
     path('user-list/', views.user_list, name='user-list'),
+    path('profile/<str:id>/', views.profile, name='profile'),
+    path('update_profile/', views.update_profile, name='update_profile'),
     path('make-admin/<str:pk>/', views.make_admin, name='make-admin'),
     path('sta-admin/', views.station_admin, name='sta-admin'),
 ] 

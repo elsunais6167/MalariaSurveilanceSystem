@@ -7,16 +7,12 @@ from django.contrib.auth.models import User
 # Create your models here.
 class User_admin(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=50, null=True)
-    email = models.EmailField(max_length=200, null=True)
-    phone = models.IntegerField(null=True)
-    address = models.CharField(max_length=200, null=True)
     date_created = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return self.user.username
 
-class Station_admin(models.Model):
+class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50, null=True)
     email = models.EmailField(max_length=200, null=True)
@@ -47,6 +43,14 @@ class Station(models.Model):
 
     def __str__(self):
         return self.name
+
+class Station_admin(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    station = models.ForeignKey(Station, on_delete=models.CASCADE)
+    date_created = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username
     
 class Patient(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

@@ -135,4 +135,29 @@ class PreventionForm(ModelForm):
             'use_of_insecticide': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'use_of_repellant': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
-        
+
+class ProfileForm(ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['name', 'email', 'phone', 'address']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'phone': forms.NumberInput(attrs={'class': 'form-control'}),
+            'address': forms.Textarea(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'name': 'Full Name',
+            'phone': 'Phone Number'
+        }
+
+class MakeAdmin(ModelForm):
+    class Meta:
+        model = Station_admin
+        fields = ['user', 'station']
+        widget = {
+            'user' : forms.Select(attrs={'class': 'form-control'})
+        }
+        labels = {
+            'user': 'Select User to Assign as a Station Admin'
+        }
