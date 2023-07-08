@@ -221,7 +221,9 @@ def adminDash(request):
 
 def stationDash(request, pk):
     station_id = get_object_or_404(Station, id=pk)
+    #station = Station.objects.all()
     context = {
+        'station': station_id
 
     }
     return render(request, 'station_dash.html', context)
