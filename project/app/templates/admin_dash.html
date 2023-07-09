@@ -42,6 +42,7 @@
             <tr>
               <th>Name</th>
               <th>Category</th>
+              <th>Address</th>
               <th>Date Created</th>
               <th>Action</th>
             </tr>
@@ -52,6 +53,7 @@
 
               <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{s.name}}</strong></td>
               <td>{{s.category}}</td>
+              <td>{{s.address}}</td>
               <td>{{s.date_created}}</td>
               <td>
                 <a href="{% url 'sta-dashh' s.id %}" class="btn btn-primary me-2">View</a>

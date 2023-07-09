@@ -24,7 +24,7 @@ class Profile(models.Model):
         return self.name
 
 class Station(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     select = (
         ('Hospital', 'Hospital'),
         ('Clinic', 'Clinic'),

@@ -155,7 +155,7 @@ class MakeAdmin(ModelForm):
     class Meta:
         model = Station_admin
         fields = ['user']
-        widget = {
+        widgets = {
             'user' : forms.Select(attrs={'class': 'form-control'})
         }
         labels = {

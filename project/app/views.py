@@ -43,11 +43,31 @@ def is_station_admin(user):
 
 
 def index(request):
-    return render(request, 'index.html')
+    error_message = ""
+    login_error = ""
 
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            if hasattr(user, 'station_admin'):
+                return redirect('sta-admin')
+            elif hasattr(user, 'user_admin'):
+                return redirect('admin-dash')
+            else:
+                error_message = 'Your login details are correct. However, you have not been assigned a Mosque to Manage. Please contact state coordinator'
+        else:
+            login_error = 'Invalid Username or Password, Please Try Again!'
+
+    return render(request, 'index.html', {'error_message': error_message, 'login_error': login_error})
+
+   
 def loggingout(request):
     logout(request)
     return HttpResponseRedirect('/login/')
+
 
 def login_user(request):
     error_message = ""
@@ -87,6 +107,7 @@ def user_signup(request):
     }
     return render(request, 'signup.html', context)
 
+
 def household(request):
     form = HouseholdForm()
     if request.method == "POST":
@@ -103,6 +124,7 @@ def household(request):
         'form': form,
     }
     return render(request, 'household.html', context)
+
 
 def profile(request, id):
     p_id = get_object_or_404(User, id=id)
@@ -125,6 +147,7 @@ def profile(request, id):
     }
     return render(request, 'profile.html', context)
 
+
 def update_profile(request, pk):
     id = int(pk)
     user_id = User.objects.get(id=pk)
@@ -143,6 +166,7 @@ def update_profile(request, pk):
         'form': form,
     }
     return render(request, 'profile.html', context)
+
 
 @login_required
 @user_passes_test(is_user_admin)
@@ -276,23 +300,26 @@ def adminDash(request):
 
 def stationDash(request, pk):
     station_id = get_object_or_404(Station, id=pk)
-    admins = station_id.user
-    #admins = User.objects.get(station.user)
+    admins = Station_admin.objects.filter(station=station_id)
+    admins = [admin.user for admin in admins]
+    profile = Profile.objects.all()
 
     context = {
         'station': station_id,
-        'admins': admins
+        'admins': admins,
+        'profile': profile
     }
     return render(request, 'station_dash.html', context)
 
 
 @login_required
+@user_passes_test(is_user_admin)
 def user_list(request):
     users_list = User.objects.all()
     profile = Profile.objects.all()
     context = {
         'users_list': users_list,
-        'profile' : profile
+        'profile': profile
     }
 
     return render(request, 'users.html', context)
@@ -309,17 +336,23 @@ def make_admin(request, id):
         form = MakeAdmin(request.POST)
         if form.is_valid():
             station = s_id
-            # Create a new product and set the user field
-            form = form.save(commit=False)
-            form.station = station
-            form.save()
-            return redirect('sta-dashh')
+            user = form.cleaned_data['user']
 
+            if not User_admin.objects.filter(user=user).exists(): 
+                form = form.save(commit=False)
+                form.station = station
+                form.save()
+                return redirect('admin-dash')
+            else:
+                form.add_error('user', 'This user is already an admin.')
+        
     context = {
         'form': form,
         'station_id': station_id
     }
     return render(request, 'make_admin.html', context)
+
+
 
 def station_admin(request):
 
