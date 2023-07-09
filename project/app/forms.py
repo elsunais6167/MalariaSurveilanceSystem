@@ -154,7 +154,7 @@ class ProfileForm(ModelForm):
 class MakeAdmin(ModelForm):
     class Meta:
         model = Station_admin
-        fields = ['user', 'station']
+        fields = ['user']
         widget = {
             'user' : forms.Select(attrs={'class': 'form-control'})
         }

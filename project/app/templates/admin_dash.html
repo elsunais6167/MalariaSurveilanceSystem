@@ -54,7 +54,10 @@
               <td>{{s.category}}</td>
               <td>{{s.date_created}}</td>
               <td>
-                <a href="{% url 'sta-dash' s.id %}" class="btn btn-primary me-2">View</a>
+                <a href="{% url 'sta-dashh' s.id %}" class="btn btn-primary me-2">View</a>
+              </td>
+              <td>
+                <a href="{% url 'make-admin' s.id %}" class="btn btn-primary me-2">Add Admin</a>
               </td>
             {% endfor %}
           </tbody>

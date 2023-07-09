@@ -144,24 +144,6 @@ def update_profile(request, pk):
     }
     return render(request, 'profile.html', context)
 
-def household(request):
-    form = HouseholdForm()
-    if request.method == "POST":
-        form = HouseholdForm(request.POST)
-        if form.is_valid():
-            # user = request.user
-            # Create a new product and set the user field
-            house = form.save(commit=False)
-            # customer.user = user
-            house.save()
-            return redirect('household')
-
-    context = {
-        'form': form,
-    }
-    return render(request, 'household.html', context)
-
-
 @login_required
 @user_passes_test(is_user_admin)
 def addStation(request):
@@ -294,10 +276,12 @@ def adminDash(request):
 
 def stationDash(request, pk):
     station_id = get_object_or_404(Station, id=pk)
-    # station = Station.objects.all()
-    context = {
-        'station': station_id
+    admins = station_id.user
+    #admins = User.objects.get(station.user)
 
+    context = {
+        'station': station_id,
+        'admins': admins
     }
     return render(request, 'station_dash.html', context)
 
@@ -316,14 +300,26 @@ def user_list(request):
 
 @login_required
 @user_passes_test(is_user_admin)
-def make_admin(request, pk):
-    user_id = get_object_or_404(User, id=pk)
+def make_admin(request, id):
+    station_id = get_object_or_404(Station, id=id)
+    station_id = station_id.id
+    s_id = Station.objects.get(id=station_id)
+    form = MakeAdmin()
+    if request.method == "POST":
+        form = MakeAdmin(request.POST)
+        if form.is_valid():
+            station = s_id
+            # Create a new product and set the user field
+            form = form.save(commit=False)
+            form.station = station
+            form.save()
+            return redirect('sta-dashh')
 
     context = {
-
+        'form': form,
+        'station_id': station_id
     }
     return render(request, 'make_admin.html', context)
-
 
 def station_admin(request):
 

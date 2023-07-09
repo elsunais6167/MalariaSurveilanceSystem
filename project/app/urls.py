@@ -14,11 +14,11 @@ urlpatterns = [
     path('add-treatment/', views.addTreatment, name='add-treatment'),
     path('add-prevention/', views.addPreventive, name='add-prevention'),
     path('admin-dash/', views.adminDash, name='admin-dash'),
-    path('sta-dash/<str:pk>/', views.stationDash, name='sta-dash'),
+    path('sta-dash/<str:pk>/', views.stationDash, name='sta-dashh'),
     path('add-user/', views.user_signup, name='add-user'),
     path('user-list/', views.user_list, name='user-list'),
     path('profile/<str:id>/', views.profile, name='profile'),
     path('update_profile/', views.update_profile, name='update_profile'),
-    path('make-admin/<str:pk>/', views.make_admin, name='make-admin'),
+    path('make-admin/<str:id>/', views.make_admin, name='make-admin'),
     path('sta-admin/', views.station_admin, name='sta-admin'),
 ] 

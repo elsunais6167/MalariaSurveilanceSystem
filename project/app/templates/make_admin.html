@@ -31,7 +31,7 @@
                 </div>
                 <hr class="my-0" />
                 <div class="card-body">
-                    <form method="POST" action="{% url 'add-treatment' %}">
+                    <form method="POST" action="{% url 'make-admin' station_id %}">
                         {% csrf_token %}
                         {{form.as_p}}
                         <div class="mt-2">
