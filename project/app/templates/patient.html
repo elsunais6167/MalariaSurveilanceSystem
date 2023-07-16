@@ -12,16 +12,24 @@
             <div class="col-md-12">
                 <ul class="nav nav-pills flex-column flex-md-row mb-3">
                     <li class="nav-item">
-                        <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-user me-1"></i>
-                            Station</a>
+                        <a class="nav-link" href="{% url 'sta-admin' %}"><i class="bx bx-cog"></i>
+                            Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="pages-account-settings-notifications.html"><i
-                                class="bx bx-bell me-1"></i> Add a New Station</a>
+                        <a class="nav-link active" href="javascript:void(0);"><i class='bx bx-add-to-queue'></i>Create
+                        Patient</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="pages-account-settings-connections.html"><i
-                                class="bx bx-link-alt me-1"></i> Users </a>
+                        <a class="nav-link" href="{% url 'patient-list' %}"><i class="bx bx-list-ul"></i>
+                            Patients' List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bx bxs-building-house"></i>Create Campaign
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'sta-camp' %}"><i class="bx bx-list-check"></i> Campaigns
+                        </a>
                     </li>
                 </ul>
                 <div class="card mb-4">

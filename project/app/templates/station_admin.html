@@ -15,23 +15,25 @@
             <div class="col-md-12">
                 <ul class="nav nav-pills flex-column flex-md-row mb-3">
                     <li class="nav-item">
-                        <a class="nav-link active" href="javascript:void(0);"><i class="bx bxl-telegram me-1"></i>
-                            List of Stations</a>
+                        <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-cog"></i>
+                            Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'add-user' %}"><i class='bx bx-add-to-queue'></i> Add a New
-                            User</a>
+                        <a class="nav-link" href="{% url 'addpatient' %}"><i class='bx bx-add-to-queue'></i>Create
+                        Patient</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'addStation' %}"><i class="bx bxs-building-house"></i> Add a
-                            New Station
+                        <a class="nav-link" href="{% url 'patient-list' %}"><i class="bx bx-list-ul"></i>
+                            Patients' List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bx bxs-building-house"></i>Create Campaign
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'user-list' %}"><i class="bx bx-list-ul"></i>
-                            List of Users</a>
+                        <a class="nav-link" href="{% url 'sta-camp' %}"><i class="bx bx-list-check"></i> Campaigns
+                        </a>
                     </li>
-
                 </ul>
 
                 <!-- Basic Bootstrap Table -->
@@ -55,7 +57,7 @@
                                 <textarea class="form-control" id="mdcc" rows="3" name="mdcc"
                                     readonly>{{ station.address }}</textarea>
                             </div>
-                            <div class="mb-3 col-md-6">
+                            <div class="mb-3 col-md-6"> 
                                 <label for="address" class="form-label">GIS Coordinate</label>
                                 <input class="form-control" type="text" id="address"
                                     value="{{ station.gis_location }}" name="address" required readonly />

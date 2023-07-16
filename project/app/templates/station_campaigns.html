@@ -13,28 +13,29 @@
   <!-- Content -->
   <div class="row">
     <div class="col-md-12">
-        <ul class="nav nav-pills flex-column flex-md-row mb-3">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'admin-dash' %}"><i class="bx bxl-telegram me-1"></i>
-                    List of Stations</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'add-user' %}"><i class='bx bx-add-to-queue'></i> Add a New User</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'addStation' %}"><i class="bx bxs-building-house"></i> Add a New Station
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'user-list' %}"><i class="bx bx-list-ul"></i>
-                    List of Users</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-home-smile"></i> Campaigns
-              </a>
-          </li>
-        </ul>
-  
+      <ul class="nav nav-pills flex-column flex-md-row mb-3">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'sta-admin' %}"><i class="bx bx-cog"></i>
+                Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'addpatient' %}"><i class='bx bx-add-to-queue'></i>Create
+            Patient</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'patient-list' %}"><i class="bx bx-list-ul"></i>
+                Patients' List</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="bx bxs-building-house"></i>Create Campaign
+          </a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link active" href="{% url 'sta-camp' %}"><i class="bx bx-list-check"></i> Campaigns
+          </a>
+      </li>
+    </ul>
+
     <!-- Toast with Placements -->
     <!-- Basic Bootstrap Table -->
     <div class="card">
@@ -44,7 +45,6 @@
           <thead>
             <tr>
               <th>Name</th>
-              <th>Type</th>
               <th>Category</th>
               <th>Address</th>
               <th>Date Created</th>
@@ -52,16 +52,18 @@
             </tr>
           </thead>
           <tbody class="table-border-bottom-0">
-            {% for s in campaigns %}
+            {% for s in campaign %}
             <tr>
 
               <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{s.name}}</strong></td>
-              <td>{{s.campaign_type}} </td>
               <td>{{s.category}}</td>
               <td>{{s.address}}</td>
               <td>{{s.date_created}}</td>
               <td>
-                <a href="{% url 'camp-info' s.id %}" class="btn btn-primary me-2">View</a>
+                <a href="#" class="btn btn-primary me-2">View</a>
+              </td>
+              <td>
+                <a href="#" class="btn btn-primary me-2">Report</a>
               </td>
             {% endfor %}
           </tbody>

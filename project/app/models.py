@@ -202,6 +202,7 @@ class Campaign(models.Model):
         ('Community Initiative', 'Community Initiative'),
     )
     name = models.CharField(max_length=50)
+    station = models.ForeignKey(Station, on_delete=models.CASCADE)
     category = models.CharField(max_length=50, choices=select) 
     gis_location = models.CharField(max_length=50)
     address = models.TextField(max_length=200)

@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib import messages
 
 # models
-from .models import Campaign, Patient
+from .models import CampReport, Campaign, Patient
 from .models import Station
 from .models import Morbidity
 from .models import Mortality
@@ -189,15 +189,18 @@ def addStation(request):
 
 
 def addPatient(request):
+    station_id = get_object_or_404(Station_admin, user=request.user)
+    station = station_id.station
     form = PatientForm()
     if request.method == "POST":
         form = PatientForm(request.POST)
         if form.is_valid():
-            # user = request.user
+            user = request.user
             patient = form.save(commit=False)
-            # customer.user = user
+            patient.user = user
+            patient.care_centre = station
             patient.save()
-            return redirect('home')
+            return redirect('patient-list')
 
     context = {
         'form': form,
@@ -355,18 +358,54 @@ def make_admin(request, id):
 
 
 def station_admin(request):
+    info = get_object_or_404(Station_admin, user=request.user)
+    station = info.station
 
     context = {
-
+        'station': station,
     }
 
     return render(request, 'station_admin.html', context)
 
 def CampList(request):
-    campaigns = Campaign.objects.all()
     
+    campaigns = Campaign.objects.all()
     context = {
-        'campaigns': campaigns
+        'campaigns': campaigns,
+        
     }
 
     return render(request, 'campaigns.html', context)
+
+def Campaign_Info(request, pk):
+    campaign = get_object_or_404(Campaign, id=pk)
+    report = CampReport.objects.filter(campaign_id=campaign)
+
+    context = {
+        'campaign': campaign,
+        'report': report
+    }
+
+    return render(request, 'campaign_info.html', context)
+
+def Patient_List(request):
+    info = get_object_or_404(Station_admin, user=request.user)
+    station = info.station
+    patient = Patient.objects.filter(care_centre=station)
+
+    context = {
+        'patient': patient,
+        
+    }
+
+    return render(request, 'patient_list.html', context)
+
+def Sta_Campaign(request):
+    info = get_object_or_404(Station_admin, user=request.user)
+    station = info.station
+    campaign = Campaign.objects.filter(station=station)
+    context = {
+        'campaign': campaign
+    }
+
+    return render(request, 'station_campaigns.html', context)
