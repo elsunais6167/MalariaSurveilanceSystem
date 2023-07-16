@@ -29,8 +29,6 @@ class Station(models.Model):
         ('Hospital', 'Hospital'),
         ('Clinic', 'Clinic'),
         ('Laboratory', 'Laboratory'),
-        ('Mass Screening', 'Mass Screening'),
-        ('Community Camp', 'Community Camp'),
     )
     name = models.CharField(max_length=50)
     category = models.CharField(max_length=50, choices=select) 
@@ -53,7 +51,7 @@ class Station_admin(models.Model):
         return self.user.username
     
 class Patient(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     select = (
         ('Male', 'Male'),
         ('Female', 'Female')
@@ -69,7 +67,7 @@ class Patient(models.Model):
         return self.name
 
 class Household(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
     family_size = models.IntegerField()
     no_of_children = models.IntegerField()
@@ -84,7 +82,7 @@ class Household(models.Model):
         return self.patient_id.name
 
 class Diagnosis(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
     opening_date = models.DateField(auto_now_add=True, null=True)
     mode_choices = (
@@ -120,7 +118,7 @@ class Diagnosis(models.Model):
         return self.patient_id.name
 
 class Morbidity(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
     severity_choice = (
         ('Mild (uncomplecated)', 'Mild (uncomplecated)'),
@@ -140,7 +138,7 @@ class Morbidity(models.Model):
         return self.patient_id.name
 
 class Treatment(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
     treat_choice = (
         ('ACTs', 'ACTs'),
@@ -163,7 +161,7 @@ class Treatment(models.Model):
         return self.patient_id.name
     
 class Mortality(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
     select = (
         ('Mortality', 'Mortality'),
@@ -174,7 +172,7 @@ class Mortality(models.Model):
     date_created = models.DateField(auto_now_add=True) 
 
 class Preventive(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
     use_of_mosquito_net = models.BooleanField()
     use_of_insecticide = models.BooleanField()
@@ -189,3 +187,39 @@ class Preventive(models.Model):
 
     def __str__(self):
         return self.patient_id.name
+
+class Campaigns(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    type = (
+        ('Mass Screening', 'Mass Screening'),
+        ('Community Camp', 'Community Camp'),
+    )
+    campaign_type = models.CharField(max_length=50, choices=type)
+    select = (
+        ('Governmental', 'Governmental'),
+        ('Non-Governmental Organisation', 'Non-Governmental Organisation'),
+        ('Private Organisation', 'Private Organisation'),
+        ('Community Initiative', 'Community Initiative'),
+    )
+    name = models.CharField(max_length=50)
+    category = models.CharField(max_length=50, choices=select) 
+    gis_location = models.CharField(max_length=50)
+    address = models.TextField(max_length=200)
+    supervisor = models.TextField(max_length=200)
+    phone = models.IntegerField()
+    email = models.EmailField(max_length=200)
+    date_created = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+class CampReport(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    campaign_id = models.ForeignKey(Campaigns, on_delete=models.CASCADE)
+    screened = models.IntegerField()
+    treated = models.IntegerField()
+    referral = models.IntegerField()
+    date_created = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.campaign_id.name
