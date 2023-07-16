@@ -15,7 +15,7 @@
     <div class="col-md-12">
         <ul class="nav nav-pills flex-column flex-md-row mb-3">
             <li class="nav-item">
-                <a class="nav-link active" href="javascript:void(0);"><i class="bx bxl-telegram me-1"></i>
+                <a class="nav-link" href="{% url 'admin-dash' %}"><i class="bx bxl-telegram me-1"></i>
                     List of Stations</a>
             </li>
             <li class="nav-item">
@@ -30,7 +30,7 @@
                     List of Users</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'camp-list' %}"><i class="bx bx-home-smile"></i> Campaigns
+              <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-home-smile"></i> Campaigns
               </a>
           </li>
         </ul>
@@ -38,7 +38,7 @@
     <!-- Toast with Placements -->
     <!-- Basic Bootstrap Table -->
     <div class="card">
-      <h5 class="card-header">List of Stations</h5>
+      <h5 class="card-header">Campaigns</h5>
       <div class="table-responsive text-nowrap">
         <table class="table">
           <thead>
@@ -51,7 +51,7 @@
             </tr>
           </thead>
           <tbody class="table-border-bottom-0">
-            {% for s in station_list %}
+            {% for s in campaigns %}
             <tr>
 
               <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{s.name}}</strong></td>
@@ -59,10 +59,10 @@
               <td>{{s.address}}</td>
               <td>{{s.date_created}}</td>
               <td>
-                <a href="{% url 'sta-dashh' s.id %}" class="btn btn-primary me-2">View</a>
+                <a href="#" class="btn btn-primary me-2">View</a>
               </td>
               <td>
-                <a href="{% url 'make-admin' s.id %}" class="btn btn-primary me-2">Add Admin</a>
+                <a href="#" class="btn btn-primary me-2">Report</a>
               </td>
             {% endfor %}
           </tbody>

@@ -188,7 +188,7 @@ class Preventive(models.Model):
     def __str__(self):
         return self.patient_id.name
 
-class Campaigns(models.Model):
+class Campaign(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     type = (
         ('Mass Screening', 'Mass Screening'),
@@ -215,7 +215,7 @@ class Campaigns(models.Model):
 
 class CampReport(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    campaign_id = models.ForeignKey(Campaigns, on_delete=models.CASCADE)
+    campaign_id = models.ForeignKey(Campaign, on_delete=models.CASCADE)
     screened = models.IntegerField()
     treated = models.IntegerField()
     referral = models.IntegerField()

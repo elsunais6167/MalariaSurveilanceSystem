@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib import messages
 
 # models
-from .models import Patient
+from .models import Campaign, Patient
 from .models import Station
 from .models import Morbidity
 from .models import Mortality
@@ -361,3 +361,12 @@ def station_admin(request):
     }
 
     return render(request, 'station_admin.html', context)
+
+def CampList(request):
+    campaigns = Campaign.objects.all()
+    
+    context = {
+        'campaigns': campaigns
+    }
+
+    return render(request, 'campaigns.html', context)

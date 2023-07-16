@@ -21,4 +21,5 @@ urlpatterns = [
     path('update_profile/', views.update_profile, name='update_profile'),
     path('make-admin/<str:id>/', views.make_admin, name='make-admin'),
     path('sta-admin/', views.station_admin, name='sta-admin'),
+    path('camp-list', views.CampList, name='camp-list'),
 ] 
