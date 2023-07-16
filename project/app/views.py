@@ -19,7 +19,7 @@ from .models import Station_admin
 from .models import Profile
 
 # forms
-from .forms import CreateUserForm
+from .forms import CampaignForm, CreateUserForm
 from .forms import HouseholdForm
 from .forms import PreventionForm
 from .forms import TreatmentForm
@@ -208,6 +208,26 @@ def addPatient(request):
 
     return render(request, 'patient.html', context)
 
+
+def addCampaign(request):
+    station_id = get_object_or_404(Station_admin, user=request.user)
+    station = station_id.station
+    form = CampaignForm()
+    if request.method == "POST":
+        form = CampaignForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            campaign = form.save(commit=False)
+            campaign.user = user
+            campaign.care_centre = station
+            campaign.save()
+            return redirect('sta-camp')
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'create_camp.html', context)
 
 def addDiagnosis(request):
     form = DianosisForm()

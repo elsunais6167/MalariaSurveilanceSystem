@@ -25,5 +25,7 @@ urlpatterns = [
     path('camp-info/<str:pk>/', views.Campaign_Info, name='camp-info'),
     path('patient-list', views.Patient_List, name='patient-list'),
     path('sta-camp', views.Sta_Campaign, name='sta-camp'),
+    path('add-camp', views.addCampaign, name='add-camp'),
     
+
 ]

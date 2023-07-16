@@ -161,3 +161,25 @@ class MakeAdmin(ModelForm):
         labels = {
             'user': 'Select User to Assign as a Station Admin'
         }
+
+class CampaignForm(ModelForm):
+    class Meta:
+        model = Campaign
+        fields = ['name', 'campaign_type', 'category', 'address',
+                  'supervisor', 'phone', 'email', 'gis_location']
+        widgets = {
+            'category': forms.Select(attrs={'class': 'form-control'}),
+            'campaign_type': forms.Select(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'address': forms.Textarea(attrs={'class': 'form-control'}),
+            'supervisor': forms.TextInput(attrs={'class': 'form-control'}),
+            'phone': forms.NumberInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'gis_location': forms.HiddenInput(),
+        }
+
+        labels = {
+            'name': 'Name of Malaria Campaign Program',
+            'campaign_type': 'What type of Campaign',
+            'category' : 'Project Sponsor'
+        }
