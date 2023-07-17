@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Content wrapper -->
+<div class="content-wrapper">
+  <div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-semibold py-3 mb-4"><span class="text-muted fw-light">Welcome To /</span>Dashboard</h4>
+
+    <!-- Toast with Placements -->
+    <div class="bs-toast toast toast-placement-ex m-2" role="alert" aria-live="assertive" aria-atomic="true"
+      data-delay="2000">
+    </div>
+  <!-- Content -->
+  <div class="row">
+    <div class="col-md-12">
+        <ul class="nav nav-pills flex-column flex-md-row mb-3">
+            <li class="nav-item">
+                <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-cog"></i>
+                    Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class='bx bx-add-to-queue'></i>Household</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="bx bx-list-ul"></i>Diagnosis</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="bx bxs-building-house"></i>Treatment
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="bx bx-list-check"></i> Mobidity & Mortality
+                </a>
+            </li>
+        </ul>
+    <!-- Basic Bootstrap Table -->
+    <div class="card">
+      <h5 class="card-header">Patients</h5>
+      
+    </div>
+  </div>
+</div>
+{% endblock content %}

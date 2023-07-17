@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib import messages
+from django.urls import reverse
 
 # models
 from .models import CampReport, Campaign, Patient
@@ -33,6 +34,14 @@ from .forms import MakeAdmin
 
 # Create your views here.
 
+
+def go_back(request):
+    referring_url = request.META.get('HTTP_REFERER')
+
+    if referring_url:
+        return HttpResponseRedirect(referring_url)
+    else:
+        return HttpResponseRedirect(reverse('home'))  # Replace 'home' with your desired URL name
 
 def is_user_admin(user):
     return hasattr(user, 'user_admin')
@@ -108,17 +117,19 @@ def user_signup(request):
     return render(request, 'signup.html', context)
 
 
-def household(request):
-    form = HouseholdForm()
+def household(request, pk):
+    patient_id = Patient.objects.get(id=pk)
+    form = HouseholdForm(initial={'patient_id': patient_id})
     if request.method == "POST":
         form = HouseholdForm(request.POST)
         if form.is_valid():
-            # user = request.user
+            user = request.user
             # Create a new product and set the user field
             house = form.save(commit=False)
-            # customer.user = user
+            house.patient_id = patient_id
+            house.user = user
             house.save()
-            return redirect('household')
+            return redirect('patient-info')
 
     context = {
         'form': form,
@@ -187,6 +198,14 @@ def addStation(request):
 
     return render(request, 'station.html', context)
 
+def patient_prof(request, pk):
+    patient_id = get_object_or_404(Patient, id=pk)
+
+    context = {
+        'patient' : patient_id
+    }
+
+    return render(request, 'patient_prof.html', context)
 
 def addPatient(request):
     station_id = get_object_or_404(Station_admin, user=request.user)

@@ -60,7 +60,7 @@
               <td>{{p.address}}</td>
               <td>{{p.opening_date}}</td>
               <td>
-                <a href="#" class="btn btn-primary me-2">View</a>
+                <a href="{% url 'patient-info' p.id %}" class="btn btn-primary me-2">View</a>
               </td>
             {% endfor %}
           </tbody>

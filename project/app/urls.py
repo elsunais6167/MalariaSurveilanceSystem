@@ -26,6 +26,6 @@ urlpatterns = [
     path('patient-list', views.Patient_List, name='patient-list'),
     path('sta-camp', views.Sta_Campaign, name='sta-camp'),
     path('add-camp', views.addCampaign, name='add-camp'),
-    
-
+    path('patient-info/<str:pk>/', views.patient_prof, name='patient-info'),
+    path('go-back/', views.go_back, name='go_back'),
 ]
