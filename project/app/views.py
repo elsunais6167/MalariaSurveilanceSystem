@@ -4,7 +4,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib import messages
-from django.urls import reverse
 
 # models
 from .models import CampReport, Campaign, Patient
@@ -34,14 +33,6 @@ from .forms import MakeAdmin
 
 # Create your views here.
 
-
-def go_back(request):
-    referring_url = request.META.get('HTTP_REFERER')
-
-    if referring_url:
-        return HttpResponseRedirect(referring_url)
-    else:
-        return HttpResponseRedirect(reverse('home'))  # Replace 'home' with your desired URL name
 
 def is_user_admin(user):
     return hasattr(user, 'user_admin')
