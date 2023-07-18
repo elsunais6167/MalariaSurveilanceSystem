@@ -183,3 +183,18 @@ class CampaignForm(ModelForm):
             'campaign_type': 'What type of Campaign',
             'category' : 'Project Sponsor'
         }
+
+class CampReportForm(ModelForm):
+    class Meta:
+        model = CampReport
+        fields = ['screened', 'treated', 'referral']
+        widgets = {
+            'screened': forms.NumberInput(attrs={'class': 'form-control'}),
+            'treated': forms.NumberInput(attrs={'class': 'form-control'}),
+            'referral': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'screened': 'Total Number of Screened/Tested Patient',
+            'treated': 'Total Number of Treated Patient',
+            'referral' : 'Total Number of Patients Referred to Hospital'
+        }

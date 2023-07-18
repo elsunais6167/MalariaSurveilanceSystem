@@ -60,10 +60,10 @@
               <td>{{s.address}}</td>
               <td>{{s.date_created}}</td>
               <td>
-                <a href="#" class="btn btn-primary me-2">View</a>
+                <a href="{% url 'camp-info' s.id %}" class="btn btn-primary me-2">View</a>
               </td>
               <td>
-                <a href="#" class="btn btn-primary me-2">Report</a>
+                <a href="{% url 'camp-report' s.id %}" class="btn btn-primary me-2">Report</a>
               </td>
             {% endfor %}
           </tbody>

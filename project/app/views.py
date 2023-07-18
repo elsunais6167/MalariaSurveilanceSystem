@@ -19,7 +19,7 @@ from .models import Station_admin
 from .models import Profile
 
 # forms
-from .forms import CampaignForm, CreateUserForm
+from .forms import CampReportForm, CampaignForm, CreateUserForm
 from .forms import HouseholdForm
 from .forms import PreventionForm
 from .forms import TreatmentForm
@@ -229,7 +229,7 @@ def addCampaign(request):
             user = request.user
             campaign = form.save(commit=False)
             campaign.user = user
-            campaign.care_centre = station
+            campaign.station = station
             campaign.save()
             return redirect('sta-camp')
 
@@ -238,6 +238,29 @@ def addCampaign(request):
     }
 
     return render(request, 'create_camp.html', context)
+
+def Camp_Report(request, id):
+    campaign = get_object_or_404(Campaign, id=id)
+    camp_id = campaign.id
+    camp = Campaign.objects.get(id=camp_id)
+
+    form = CampReportForm()
+    if request.method == "POST":
+        form = CampReportForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            campaign = form.save(commit=False)
+            campaign.user = user
+            campaign.campaign_id = camp
+            campaign.save()
+            return redirect('sta-camp')
+
+    context = {
+        'form': form,
+        'camp_id': camp_id
+    }
+
+    return render(request, 'camp_report.html', context, )
 
 def addDiagnosis(request):
     form = DianosisForm()
@@ -364,6 +387,7 @@ def make_admin(request, id):
     station_id = get_object_or_404(Station, id=id)
     station_id = station_id.id
     s_id = Station.objects.get(id=station_id)
+
     form = MakeAdmin()
     if request.method == "POST":
         form = MakeAdmin(request.POST)

@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Content wrapper -->
+<div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-semibold py-3 mb-4"><span class="text-muted fw-light">Welcome To /</span>Dashboard</h4>
+
+        <!-- Toast with Placements -->
+        <div class="bs-toast toast toast-placement-ex m-2" role="alert" aria-live="assertive" aria-atomic="true"
+            data-delay="2000">
+        </div>
+        <!-- Content -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav nav-pills flex-column flex-md-row mb-3">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-user me-1"></i>
+                            Profile</a>
+                    </li>
+                    {% if user.User_admin %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'camp-list' %}"><i class="bx bx-log-out"></i>
+                            Dashboard</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'sta-camp' %}"><i class="bx bx-log-out"></i>
+                            Dashboard</a>
+                    </li>
+                    {% endif %}
+                </ul>
+
+                <!-- Basic Bootstrap Table -->
+                <div class="card">
+                    <h5 class="card-header">Campaign Report</h5>
+                    <div class="table-responsive text-nowrap">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Total Screened</th>
+                                    <th>Total Treated</th>
+                                    <th>Total Referred</th>
+                                    <!-- <th>Action</th> -->
+                                </tr>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                {% for r in report %}
+                                <tr>
+                                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
+                                        <strong>{{r.date_created}}</strong>
+                                    </td>
+                                    <td>
+                                        {{r.screened}}
+                                    </td>
+                                    <td>
+                                        {{r.treated}}
+                                    </td>
+                                    <td>
+                                        {{r.referral}}
+                                    </td>
+                                    <!--
+                                    <td>
+                                        <a href="#" class="btn btn-primary me-2">Update
+                                            Profile</a>
+                                    </td>
+                                    -->
+                                    {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <h5 class="card-header">Profile</h5>
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="mb-3 col-md-6">
+                                <label for="AName" class="form-label">campaign Name</label>
+                                <input class="form-control" value="{{ campaign.name }}" type="text" id="AName"
+                                    name="AName" required readonly />
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="age" class="form-label">campaign Category</label>
+                                <input class="form-control" type="text" name="age" value="{{ campaign.category }}"
+                                    id="age" maxlength="2" required readonly />
+                            </div>
+                            <div class="mb-6 col-md-12">
+                                <label for="mdcc" class="form-label">campaign Adress</label>
+                                <textarea class="form-control" id="mdcc" rows="3" name="mdcc"
+                                    readonly>{{ campaign.address }}</textarea>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="address" class="form-label">GIS Coordinate</label>
+                                <input class="form-control" type="text" id="address" value="{{ campaign.gis_location }}"
+                                    name="address" required readonly />
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="NName" class="form-label">campaign Supervisor</label>
+                                <input type="text" class="form-control" id="NName" value="{{ campaign.supervisor }}"
+                                    name="NName" required readonly />
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label" for="phoneNumber">Phone Number</label>
+                                <div class="input-group input-group-merge">
+                                    <span class="input-group-text">NG (+234)</span>
+                                    <input type="number" id="phoneNumber" name="phoneNumber" class="form-control"
+                                        placeholder="07019575268" value="{{ campaign.phone}}" required readonly />
+                                </div>
+                            </div>
+
+                            <div class="mb-3 col-md-6">
+                                <label for="IdNum" class="form-label">E-Mail Address</label>
+                                <input type="text" class="form-control" value="{{ campaign.email }}" id="IdNum"
+                                    name="IdNum" required readonly />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

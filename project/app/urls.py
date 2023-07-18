@@ -24,8 +24,9 @@ urlpatterns = [
     path('camp-list', views.CampList, name='camp-list'),
     path('camp-info/<str:pk>/', views.Campaign_Info, name='camp-info'),
     path('patient-list', views.Patient_List, name='patient-list'),
-    path('sta-camp', views.Sta_Campaign, name='sta-camp'),
+    path('sta-camp/', views.Sta_Campaign, name='sta-camp'),
     path('add-camp', views.addCampaign, name='add-camp'),
     path('patient-info/<str:pk>/', views.patient_prof, name='patient-info'),
-    
+    path('camp-report/<int:id>/', views.Camp_Report, name='camp-report'),
+
 ]
