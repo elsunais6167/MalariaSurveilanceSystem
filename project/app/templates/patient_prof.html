@@ -19,19 +19,27 @@
                     Profile</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class='bx bx-add-to-queue'></i>Household</a>
+                <a class="nav-link" href="{% url 'household' pat_id.id %}"><i class='bx bx-add-to-queue'></i>Household</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="bx bx-list-ul"></i>Diagnosis</a>
+                <a class="nav-link" href="{% url 'add-diagnosis' pat_id.id %}"><i class="bx bx-list-ul"></i>Diagnosis</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="bx bxs-building-house"></i>Treatment
+                <a class="nav-link" href="{% url 'add-treatment' pat_id.id %}"><i class="bx bxs-building-house"></i>Treatment
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="bx bx-list-check"></i> Mobidity & Mortality
+                <a class="nav-link" href="{% url 'add-morbidity' pat_id.id %}"><i class="bx bx-list-check"></i> Mortality
                 </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'add-mortality' pat_id.id %}"><i class="bx bx-list-check"></i> Mortality
+              </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'add-prevention' pat_id.id %}"><i class="bx bx-list-check"></i> Prevention
+            </a>
+        </li>
         </ul>
     <!-- Basic Bootstrap Table -->
     <div class="card">

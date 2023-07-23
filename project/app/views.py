@@ -107,23 +107,39 @@ def user_signup(request):
     }
     return render(request, 'signup.html', context)
 
-
+@login_required
 def household(request, pk):
-    patient_id = Patient.objects.get(id=pk)
-    form = HouseholdForm(initial={'patient_id': patient_id})
+    patient = get_object_or_404(Patient, id=pk)
+    pat_id = patient.id
+    house = None
+
+    try:
+        # Try to get an existing household
+        house = Household.objects.get(patient_id=patient)
+    except Household.DoesNotExist:
+        pass
+
     if request.method == "POST":
-        form = HouseholdForm(request.POST)
+        if house:  # if a household already exists, use it as instance for the form
+            form = HouseholdForm(request.POST, instance=house)
+        else:
+            form = HouseholdForm(request.POST)
+
         if form.is_valid():
-            user = request.user
-            # Create a new product and set the user field
             house = form.save(commit=False)
-            house.patient_id = patient_id
-            house.user = user
+            house.patient_id = patient
+            house.user = request.user
             house.save()
-            return redirect('patient-info')
+            return redirect('patient-info', pk=pat_id )
+    else:  # GET or other non-POST method
+        if house:
+            form = HouseholdForm(instance=house)
+        else:
+            form = HouseholdForm()
 
     context = {
         'form': form,
+        'pat_id': pat_id,
     }
     return render(request, 'household.html', context)
 
@@ -190,10 +206,11 @@ def addStation(request):
     return render(request, 'station.html', context)
 
 def patient_prof(request, pk):
-    patient_id = get_object_or_404(Patient, id=pk)
-
+    #patient_id = get_object_or_404(Patient, id=pk)
+    pat_id = Patient.objects.get(id=pk)
     context = {
-        'patient' : patient_id
+        #'patient' : patient_id,
+        'pat_id': pat_id,
     }
 
     return render(request, 'patient_prof.html', context)
@@ -262,80 +279,115 @@ def Camp_Report(request, id):
 
     return render(request, 'camp_report.html', context, )
 
-def addDiagnosis(request):
-    form = DianosisForm()
+def addDiagnosis(request, pk):
+    patient = get_object_or_404(Patient, id=pk)
+    pat_id = patient.id
+
+    form = DianosisForm(initial={'pat_id': pat_id})
     if request.method == 'POST':
         form = DianosisForm(request.POST)
         if form.is_valid():
+            user = request.user
             diagnosis = form.save(commit=False)
+            diagnosis.user = user
+            diagnosis.patient_id = patient
             diagnosis.save()
-            return redirect('home')
+            return redirect('patient-info', pk=pat_id)
     context = {
-        'form': form
+        'form': form,
+        'pat_id': pat_id
     }
 
     return render(request, 'diagnosis.html', context)
 
 
-def addMorbidity(request):
-    form = MorbidityForm()
+def addMorbidity(request, pk):
+    patient = get_object_or_404(Patient, id=pk)
+    pat_id = patient.id
+
+    form = MorbidityForm(initial={'pat_id': pat_id})
     if request.method == 'POST':
         form = MorbidityForm(request.POST)
         if form.is_valid():
+            user = request.user
             morbidity = form.save(commit=False)
+            morbidity.user = user
+            morbidity.patient_id = patient
             morbidity.save()
-            return redirect('home')
+            return redirect('patient-info', pk=pat_id)
 
     context = {
-        'form': form
+        'form': form,
+        'pat_id': pat_id
     }
 
     return render(request, 'morbidity.html', context)
 
 
-def addMortality(request):
-    form = MortalityForm()
+def addMortality(request, pk):
+    patient = get_object_or_404(Patient, id=pk)
+    pat_id = patient.id
+
+    form = MortalityForm(initial={'pat_id': pat_id})
     if request.method == 'POST':
         form = MortalityForm(request.POST)
         if form.is_valid():
+            user = request.user
             mortality = form.save(commit=False)
+            mortality.user = user
+            mortality.patient_id = patient
             mortality.save()
-            return redirect('home')
+            return redirect('patient-info', pk=pat_id)
 
     context = {
-        'form': form
+        'form': form,
+        'pat_id': pat_id,
     }
 
     return render(request, 'mortality.html', context)
 
 
-def addTreatment(request):
-    form = TreatmentForm()
+def addTreatment(request, pk):
+    patient = get_object_or_404(Patient, id=pk)
+    pat_id = patient.id
+
+    form = TreatmentForm(initial={'pat_id': pat_id})
     if request.method == 'POST':
         form = TreatmentForm(request.POST)
         if form.is_valid():
+            user = request.user
             treatment = form.save(commit=False)
+            treatment.user = user
+            treatment.patient_id = patient
             treatment.save()
-            return redirect('home')
+            return redirect('patient-info', pk=pat_id)
 
     context = {
-        'form': form
+        'form': form,
+        'pat_id': pat_id,
     }
 
     return render(request, 'treatment.html', context)
 
 
-def addPreventive(request):
-    form = PreventionForm()
+def addPreventive(request, pk):
+    patient = get_object_or_404(Patient, id=pk)
+    pat_id = patient.id
+
+    form = PreventionForm(initial={'pat_id': pat_id})
     if request.method == 'POST':
         form = PreventionForm(request.POST)
         if form.is_valid():
+            user = request.user
             prevention = form.save(commit=False)
+            prevention.user = user
+            prevention.patient_id = patient
             prevention.save()
-            return redirect('home')
+            return redirect('patient-info', pk=pat_id)
 
     context = {
-        'form': form
+        'form': form,
+        'pat_id': pat_id,
     }
 
     return render(request, 'prevention.html', context)

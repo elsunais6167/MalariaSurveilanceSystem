@@ -68,7 +68,7 @@ class Patient(models.Model):
 
 class Household(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patient_id = models.OneToOneField(Patient, on_delete=models.CASCADE, unique=True)
     family_size = models.IntegerField()
     no_of_children = models.IntegerField()
     sleeping_in_screen = models.BooleanField()
