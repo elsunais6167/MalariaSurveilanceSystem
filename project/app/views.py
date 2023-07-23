@@ -210,12 +210,21 @@ def patient_prof(request, pk):
     household = Household.objects.get(patient_id=patient)
     
     prevention = Preventive.objects.filter(patient_id=patient)
+    diagnosis = Diagnosis.objects.filter(patient_id=patient)
+    treatment = Treatment.objects.filter(patient_id=patient)
+    morbidity = Morbidity.objects.filter(patient_id=patient)
+    mortality = Mortality.objects.filter(patient_id=patient)
+
     pat_id = Patient.objects.get(id=pk)
     context = {
         'patient' : patient,
         'pat_id': pat_id,
         'household': household,
         'prevention': prevention,
+        'diagnosis': diagnosis,
+        'treatment': treatment,
+        'morbidity': morbidity,
+        'mortality': mortality,
     }
 
     return render(request, 'patient_prof.html', context)

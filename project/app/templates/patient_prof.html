@@ -67,37 +67,37 @@
                 <input class="form-control" type="text" id="address" value="{{ patient.care_centre }}" name="address"
                   required readonly />
               </div>
-              
+
               <div class="mb-3 col-md-6">
                 <label for="IdNum" class="form-label">Family Size</label>
-                <input type="text" class="form-control" value="{{ household.family_size }}" id="IdNum" name="IdNum" required
-                  readonly />
+                <input type="text" class="form-control" value="{{ household.family_size }}" id="IdNum" name="IdNum"
+                  required readonly />
               </div>
 
               <div class="mb-3 col-md-6">
                 <label for="IdNum" class="form-label">Number of Children</label>
-                <input type="text" class="form-control" value="{{ household.no_of_children }}" id="IdNum" name="IdNum" required
-                  readonly />
+                <input type="text" class="form-control" value="{{ household.no_of_children }}" id="IdNum" name="IdNum"
+                  required readonly />
               </div>
               <div class="mb-3 col-md-6">
                 <label for="IdNum" class="form-label">Type of Drainage System</label>
-                <input type="text" class="form-control" value="{{ household.drainage_system }}" id="IdNum" name="IdNum" required
-                  readonly />
+                <input type="text" class="form-control" value="{{ household.drainage_system }}" id="IdNum" name="IdNum"
+                  required readonly />
               </div>
               <div class="mb-3 col-md-6">
                 <label for="IdNum" class="form-label">Type of Drainage System</label>
-                <input type="text" class="form-control" value="{{ household.sleeping_in_screen }}" id="IdNum" name="IdNum" required
-                  readonly />
+                <input type="text" class="form-control" value="{{ household.sleeping_in_screen }}" id="IdNum"
+                  name="IdNum" required readonly />
               </div>
               <div class="mb-3 col-md-6">
                 <label for="NName" class="form-label">Date Registered</label>
                 <input type="text" class="form-control" id="NName" value="{{ patient.opening_date }}" name="NName"
                   required readonly />
               </div>
-              
+
             </div>
           </div>
-          <h5 class="card-header">History of Preventive Measures</h5>
+          <h5 class="card-header" style="color: blue;">History of Preventive Measures</h5>
           <div class="table-responsive text-nowrap">
             <table class="table">
               <thead>
@@ -128,7 +128,7 @@
                   <td>
                     {{p.indoor_residual}}
                   </td>
-                  
+
                   <!--
                       <td>
                           <a href="#" class="btn btn-primary me-2">Update
@@ -141,7 +141,7 @@
           </div>
 
 
-          <h5 class="card-header">History of Malaria Diagnosis</h5>
+          <h5 class="card-header" style="color: blue;">History of Malaria Diagnosis</h5>
           <div class="table-responsive text-nowrap">
             <table class="table">
               <thead>
@@ -191,7 +191,7 @@
             </table>
           </div>
 
-          <h5 class="card-header">History of Malaria Treatment</h5>
+          <h5 class="card-header" style="color: blue;">History of Malaria Treatment</h5>
           <div class="table-responsive text-nowrap">
             <table class="table">
               <thead>
@@ -209,21 +209,23 @@
                 {% for t in treatment %}
                 <tr>
                   <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                    <strong>{{p.date_reported}}</strong>
+                    <strong>{{t.date_created}}</strong>
                   </td>
                   <td>
-                    {{p.use_of_mosquito_net}}
+                    {{t.treatment_type}}
                   </td>
                   <td>
-                    {{p.use_of_insecticide}}
+                    {{t.treatment_period}}
                   </td>
                   <td>
-                    {{p.use_of_repellant}}
+                    {{t.follow_up}}
                   </td>
                   <td>
-                    {{p.indoor_residual}}
+                    {{t.further_treatment}}
                   </td>
-                  
+                  <td>
+                    {{t.comment}}
+                  </td>
                   <!--
                       <td>
                           <a href="#" class="btn btn-primary me-2">Update
@@ -235,38 +237,35 @@
             </table>
           </div>
 
-          <h5 class="card-header">History of Preventive Measures</h5>
+          <h5 class="card-header" style="color: blue;">History of Morbidity</h5>
           <div class="table-responsive text-nowrap">
             <table class="table">
               <thead>
                 <tr>
                   <th>Date Reported</th>
-                  <th>Use of mosquito Net</th>
-                  <th>Use of Insecticide</th>
-                  <th>Use of Repellant</th>
-                  <th>Indoor Residual</th>
+                  <th>Severity</th>
+                  <th>Mode of Admission</th>
+                  <th>Comment</th>
+
                   <!-- <th>Action</th> -->
                 </tr>
               </thead>
               <tbody class="table-border-bottom-0">
-                {% for p in prevention %}
+                {% for m in morbidity %}
                 <tr>
                   <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                    <strong>{{p.date_reported}}</strong>
+                    <strong>{{m.date_created}}</strong>
                   </td>
                   <td>
-                    {{p.use_of_mosquito_net}}
+                    {{m.severity}}
                   </td>
                   <td>
-                    {{p.use_of_insecticide}}
+                    {{m.mode_of_admission}}
                   </td>
                   <td>
-                    {{p.use_of_repellant}}
+                    {{m.comment}}
                   </td>
-                  <td>
-                    {{p.indoor_residual}}
-                  </td>
-                  
+
                   <!--
                       <td>
                           <a href="#" class="btn btn-primary me-2">Update
@@ -278,124 +277,30 @@
             </table>
           </div>
 
-          <h5 class="card-header">History of Preventive Measures</h5>
+          <h5 class="card-header" style="color: blue;">History of Mortality</h5>
           <div class="table-responsive text-nowrap">
             <table class="table">
               <thead>
                 <tr>
                   <th>Date Reported</th>
-                  <th>Use of mosquito Net</th>
-                  <th>Use of Insecticide</th>
-                  <th>Use of Repellant</th>
-                  <th>Indoor Residual</th>
+                  <th>Mortality Status</th>
+                  <th>Data of Mortality</th>
                   <!-- <th>Action</th> -->
                 </tr>
               </thead>
               <tbody class="table-border-bottom-0">
-                {% for p in prevention %}
+                {% for m in mortality %}
                 <tr>
                   <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                    <strong>{{p.date_reported}}</strong>
+                    <strong>{{m.date_created}}</strong>
                   </td>
                   <td>
-                    {{p.use_of_mosquito_net}}
+                    {{m.status}}
                   </td>
                   <td>
-                    {{p.use_of_insecticide}}
+                    {{m.date}}
                   </td>
-                  <td>
-                    {{p.use_of_repellant}}
-                  </td>
-                  <td>
-                    {{p.indoor_residual}}
-                  </td>
-                  
-                  <!--
-                      <td>
-                          <a href="#" class="btn btn-primary me-2">Update
-                              Profile</a>
-                      </td>
-                      -->
-                  {% endfor %}
-              </tbody>
-            </table>
-          </div>
 
-          <h5 class="card-header">History of Preventive Measures</h5>
-          <div class="table-responsive text-nowrap">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Date Reported</th>
-                  <th>Use of mosquito Net</th>
-                  <th>Use of Insecticide</th>
-                  <th>Use of Repellant</th>
-                  <th>Indoor Residual</th>
-                  <!-- <th>Action</th> -->
-                </tr>
-              </thead>
-              <tbody class="table-border-bottom-0">
-                {% for p in prevention %}
-                <tr>
-                  <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                    <strong>{{p.date_reported}}</strong>
-                  </td>
-                  <td>
-                    {{p.use_of_mosquito_net}}
-                  </td>
-                  <td>
-                    {{p.use_of_insecticide}}
-                  </td>
-                  <td>
-                    {{p.use_of_repellant}}
-                  </td>
-                  <td>
-                    {{p.indoor_residual}}
-                  </td>
-                  
-                  <!--
-                      <td>
-                          <a href="#" class="btn btn-primary me-2">Update
-                              Profile</a>
-                      </td>
-                      -->
-                  {% endfor %}
-              </tbody>
-            </table>
-          </div>
-
-          <h5 class="card-header">History of Preventive Measures</h5>
-          <div class="table-responsive text-nowrap">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Date Reported</th>
-                  <th>Use of mosquito Net</th>
-                  <th>Use of Insecticide</th>
-                  <th>Use of Repellant</th>
-                  <th>Indoor Residual</th>
-                  <!-- <th>Action</th> -->
-                </tr>
-              </thead>
-              <tbody class="table-border-bottom-0">
-                {% for p in prevention %}
-                <tr>
-                  <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
-                    <strong>{{p.date_reported}}</strong>
-                  </td>
-                  <td>
-                    {{p.use_of_mosquito_net}}
-                  </td>
-                  <td>
-                    {{p.use_of_insecticide}}
-                  </td>
-                  <td>
-                    {{p.use_of_repellant}}
-                  </td>
-                  <td>
-                    {{p.indoor_residual}}
-                  </td>
-                  
                   <!--
                       <td>
                           <a href="#" class="btn btn-primary me-2">Update
