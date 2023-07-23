@@ -152,7 +152,7 @@ class Treatment(models.Model):
         ('14 Days', '14 Days'),
     )
     treatment_period = models.CharField(max_length=50, choices=period)
-    follow_up = models.ForeignKey(Diagnosis, on_delete=models.CASCADE, blank=True)
+    follow_up = models.BooleanField()
     further_treatment = models.BooleanField()
     comment = models.TextField(max_length=5000)
     date_created = models.DateField(auto_now_add=True)

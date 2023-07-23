@@ -117,7 +117,7 @@ class TreatmentForm(ModelForm):
         widgets = {
             'treatment_type': forms.Select(attrs={'class': 'form-control'}),
             'treatment_period': forms.Select(attrs={'class': 'form-control'}),
-            'follow_up': forms.Select(attrs={'class': 'form-control'}),
+            'follow_up': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'further_treatment': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'comment': forms.Textarea(attrs={'class': 'form-control'}),
         }
