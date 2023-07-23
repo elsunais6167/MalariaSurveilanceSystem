@@ -206,11 +206,16 @@ def addStation(request):
     return render(request, 'station.html', context)
 
 def patient_prof(request, pk):
-    #patient_id = get_object_or_404(Patient, id=pk)
+    patient = get_object_or_404(Patient, id=pk)
+    household = Household.objects.get(patient_id=patient)
+    
+    prevention = Preventive.objects.filter(patient_id=patient)
     pat_id = Patient.objects.get(id=pk)
     context = {
-        #'patient' : patient_id,
+        'patient' : patient,
         'pat_id': pat_id,
+        'household': household,
+        'prevention': prevention,
     }
 
     return render(request, 'patient_prof.html', context)

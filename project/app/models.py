@@ -184,7 +184,8 @@ class Preventive(models.Model):
         ('Annually', 'Annually'),
     )
     indoor_residual = models.CharField(max_length=50, choices=days)
-
+    date_reported = models.DateField(auto_now_add=True)
+    
     def __str__(self):
         return self.patient_id.name
 
