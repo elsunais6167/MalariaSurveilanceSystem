@@ -12,16 +12,12 @@
             <div class="col-md-12">
                 <ul class="nav nav-pills flex-column flex-md-row mb-3">
                     <li class="nav-item">
-                        <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-user me-1"></i>
-                            Station</a>
-                    </li>
+                        <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-list-ul"></i>
+                            Diagnosis</a>
+                    </li> 
                     <li class="nav-item">
-                        <a class="nav-link" href="pages-account-settings-notifications.html"><i
-                                class="bx bx-bell me-1"></i> Add a New Station</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="pages-account-settings-connections.html"><i
-                                class="bx bx-link-alt me-1"></i> Users </a>
+                        <a class="nav-link" href="{{request.META.HTTP_REFERER|escape}}"><i class="bx bx-arrow-back"></i>
+                            Go Back</a>
                     </li>
                 </ul>
                 <div class="card mb-4">
