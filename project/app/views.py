@@ -43,25 +43,12 @@ def is_station_admin(user):
 
 
 def index(request):
-    error_message = ""
-    login_error = ""
+    
+    context = {
 
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            if hasattr(user, 'station_admin'):
-                return redirect('sta-admin')
-            elif hasattr(user, 'user_admin'):
-                return redirect('admin-dash')
-            else:
-                error_message = 'Your login details are correct. However, you have not been assigned a Mosque to Manage. Please contact state coordinator'
-        else:
-            login_error = 'Invalid Username or Password, Please Try Again!'
-
-    return render(request, 'index.html', {'error_message': error_message, 'login_error': login_error})
+    }
+    
+    return render(request, 'index.html')
 
    
 def loggingout(request):
@@ -88,7 +75,7 @@ def login_user(request):
         else:
             login_error = 'Invalid Username or Password, Please Try Again!'
 
-    return render(request, 'index.html', {'error_message': error_message, 'login_error': login_error})
+    return render(request, 'login.html', {'error_message': error_message, 'login_error': login_error})
 
 
 @login_required
@@ -207,8 +194,12 @@ def addStation(request):
 
 def patient_prof(request, pk):
     patient = get_object_or_404(Patient, id=pk)
-    household = Household.objects.get(patient_id=patient)
     
+    try:
+        household = Household.objects.get(patient_id=patient)
+    except Household.DoesNotExist:
+        household = None
+        
     prevention = Preventive.objects.filter(patient_id=patient)
     diagnosis = Diagnosis.objects.filter(patient_id=patient)
     treatment = Treatment.objects.filter(patient_id=patient)
