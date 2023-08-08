@@ -43,12 +43,15 @@ def is_station_admin(user):
 
 
 def index(request):
-    
-    context = {
+    stations = Station.objects.count()
+    campaigns = Campaign.objects.count() 
 
+    context = {
+        'stations': stations,
+        'campaigns': campaigns,
     }
     
-    return render(request, 'index.html')
+    return render(request, 'index.html', context)
 
    
 def loggingout(request):
