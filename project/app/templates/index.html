@@ -6,7 +6,7 @@
   <div class="container-fluid">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        
+
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Querry by State
@@ -41,7 +41,7 @@
 
     <div class="container-xxl flex-grow-1 container-p-y">
       <div class="row">
-        <div class="col-lg-8 mb-4 order-0">
+        <div class="col-lg-12 mb-8 order-0">
           <div class="card">
             <div class="d-flex align-items-end row">
               <div>
@@ -60,6 +60,21 @@
             </div>
           </div>
         </div>
+        <hr>
+        <div class="col-lg-8 mb-4 order-0">
+          <div class="card">
+            <div class="d-flex align-items-end row">
+              <div>
+                <div class="card-body">
+                  <h5 class="card-title text-primary">Malaria Map</h5>
+                  <div id="mapid" style="height: 400px;"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
         <div class="col-lg-4 col-md-4 order-1">
           <div class="row">
             <div class="col-lg-6 col-md-12 col-6 mb-4">
@@ -103,7 +118,7 @@
                 <div class="card-body">
 
                   <span class="d-block mb-1">Patient Tested</span>
-                  <h3 class="card-title text-nowrap mb-2">0</h3>
+                  <h3 class="card-title text-nowrap mb-2">{{pat_count}}</h3>
                   <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i>0</small>
                 </div>
               </div>
@@ -113,7 +128,7 @@
                 <div class="card-body">
 
                   <span class="fw-semibold d-block mb-1">Positive Cases</span>
-                  <h3 class="card-title mb-2">0</h3>
+                  <h3 class="card-title mb-2">{{pos_cases}}</h3>
                   <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 0</small>
                 </div>
               </div>
@@ -145,6 +160,26 @@
     </div>
   </div>
 </div>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<script>
+  var mymap = L.map('mapid').setView([9.0820, 8.6753], 6);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(mymap);
+</script>
+
+<script>
+  var markers = JSON.parse('{{ markers_json|escapejs|safe }}');
+
+
+  for (var i = 0; i < markers.length; i++) {
+    var marker = L.marker(markers[i].location).addTo(mymap);
+    marker.bindPopup(markers[i].popup);
+}
+
+</script>
 
 <!-- / Content -->
 {% endblock content %}

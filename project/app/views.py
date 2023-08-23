@@ -1,5 +1,7 @@
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
+import json
 
+from django.db.models import Sum
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import user_passes_test, login_required
@@ -44,11 +46,44 @@ def is_station_admin(user):
 
 def index(request):
     stations = Station.objects.count()
-    campaigns = Campaign.objects.count() 
+    campaigns = Campaign.objects.count()
 
+    pat_count1 = Patient.objects.count()
+    pat_count2 = CampReport.objects.aggregate(total_screened=Sum('screened'))['total_screened']
+    total_screened = pat_count1 + pat_count2
+
+    pos_count1 = CampReport.objects.aggregate(total_treated=Sum('treated'))['total_treated']
+    pos_count2 = CampReport.objects.aggregate(total_referral=Sum('referral'))['total_referral']
+    pos_count3 = Diagnosis.objects.filter(results='Positive').count()
+    pos_cases = pos_count1 + pos_count2 + pos_count3
+
+
+    stations_map = Station.objects.all()
+    markers = []
+
+    for station in stations_map:
+        patients_count = Patient.objects.filter(care_centre=station).count()
+        positive_cases = Diagnosis.objects.filter(patient_id__care_centre=station, results='Positive').count()
+
+        # Assuming gis_location is a comma-separated string "lat,lon"
+        lat, lon = map(float, station.gis_location.split(','))
+
+        popup_content = f"""
+        <strong>{station.name}</strong> <br>
+        Total Patients: {patients_count} <br>
+        Positive Cases: {positive_cases} <br>
+        """  # Add other necessary fields
+
+        markers.append({
+            'location': [lat, lon],
+            'popup': popup_content
+        })
     context = {
         'stations': stations,
         'campaigns': campaigns,
+        'markers_json': json.dumps(markers),
+        'pat_count': total_screened,
+        'pos_cases': pos_cases,
     }
     
     return render(request, 'index.html', context)
