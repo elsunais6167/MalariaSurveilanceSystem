@@ -14,14 +14,14 @@
   <div class="row">
     <div class="col-md-12">
         <ul class="nav nav-pills flex-column flex-md-row mb-3">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'admin-dash' %}"><i class="bx bxl-telegram me-1"></i>
-                    Dashboard</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'station-list' %}"><i class="bx bx-list-ul"></i>
-                  List of Stations</a>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin-dash' %}"><i class="bx bxl-telegram me-1"></i>
+                Dashboard</a>
           </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-list-ul"></i>
+                    List of Stations</a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'add-user' %}"><i class='bx bx-add-to-queue'></i> Add a New User</a>
             </li>
@@ -34,7 +34,7 @@
                     List of Users</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-home-smile"></i> Campaigns
+              <a class="nav-link" href="{% url 'camp-list' %}"><i class="bx bx-home-smile"></i> Campaigns
               </a>
           </li>
         </ul>
@@ -42,13 +42,12 @@
     <!-- Toast with Placements -->
     <!-- Basic Bootstrap Table -->
     <div class="card">
-      <h5 class="card-header">Campaigns</h5>
+      <h5 class="card-header">List of Stations</h5>
       <div class="table-responsive text-nowrap">
         <table class="table">
           <thead>
             <tr>
               <th>Name</th>
-              <th>Type</th>
               <th>Category</th>
               <th>Address</th>
               <th>Date Created</th>
@@ -56,16 +55,18 @@
             </tr>
           </thead>
           <tbody class="table-border-bottom-0">
-            {% for s in campaigns %}
+            {% for s in station_list %}
             <tr>
 
               <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{s.name}}</strong></td>
-              <td>{{s.campaign_type}} </td>
               <td>{{s.category}}</td>
               <td>{{s.address}}</td>
               <td>{{s.date_created}}</td>
               <td>
-                <a href="{% url 'camp-info' s.id %}" class="btn btn-primary me-2">View</a>
+                <a href="{% url 'sta-dashh' s.id %}" class="btn btn-primary me-2">View</a>
+              </td>
+              <td>
+                <a href="{% url 'make-admin' s.id %}" class="btn btn-primary me-2">Add Admin</a>
               </td>
             {% endfor %}
           </tbody>

@@ -464,6 +464,73 @@ def addPreventive(request, pk):
 @login_required
 @user_passes_test(is_user_admin)
 def adminDash(request):
+    stations = Station.objects.count()
+    campaigns = Campaign.objects.count()
+    station1 = Station.objects.all()
+
+    pat_count1 = Diagnosis.objects.count()
+    pat_count2 = CampReport.objects.aggregate(total_screened=Sum('screened'))['total_screened']
+    total_screened = pat_count1 + pat_count2
+
+    pos_count1 = CampReport.objects.aggregate(total_treated=Sum('treated'))['total_treated']
+    pos_count2 = CampReport.objects.aggregate(total_referral=Sum('referral'))['total_referral']
+    pos_count3 = Diagnosis.objects.filter(results='Positive').count()
+    pos_cases = pos_count1 + pos_count2 + pos_count3
+
+    stations_map = Station.objects.all()
+    markers = []
+    for station in stations_map:
+        patients_count = Diagnosis.objects.filter(patient_id__care_centre=station).count()
+        positive_cases = Diagnosis.objects.filter(patient_id__care_centre=station, results='Positive').count()
+
+        lat, lon = map(float, station.gis_location.split(','))
+        station_url = f"/sta-public/{station.id}/"
+        popup_content = f"""
+        <a href="{station_url}"> <strong>{station.name}</strong> </a>  <br>
+        Total Malaria Test: {patients_count} <br>
+        Positive Cases: {positive_cases} <br>
+        """  
+        markers.append({
+            'location': [lat, lon],
+            'popup': popup_content
+        })
+
+    
+    campaign_map = Campaign.objects.all()
+    
+    markers2 = []
+    for campaign in campaign_map:
+        screened_count = CampReport.objects.filter(campaign_id=campaign).aggregate(total_screened=Sum('screened'))['total_screened']
+        treated_cases = CampReport.objects.filter(campaign_id=campaign).aggregate(total_treated=Sum('treated'))['total_treated']
+        refer_cases = CampReport.objects.filter(campaign_id=campaign).aggregate(total_referral=Sum('referral'))['total_referral']
+        lat, lon = map(float, campaign.gis_location.split(','))
+
+        campaign_url = f"/camp-public/{campaign.id}/"
+        popup_content = f"""
+        <a href="{campaign_url}"> <strong>{campaign.name}</strong> </a>  <br>
+        Total Screened: {screened_count} <br>
+        Total Treated: {treated_cases} <br>
+        Total Referral: {refer_cases} <br>
+        """  
+        markers2.append({
+            'location': [lat, lon],
+            'popup': popup_content
+        })
+
+    context = {
+        'stations': stations,
+        'campaigns': campaigns,
+        'markers_json': json.dumps(markers),
+        'pat_count': total_screened,
+        'pos_cases': pos_cases,
+        'markers_json2': json.dumps(markers2),
+    }
+    
+    return render(request, 'admin_dash.html', context)
+
+@login_required
+@user_passes_test(is_user_admin)
+def station_list(request):
     station_list = Station.objects.all()
 
     context = {
@@ -471,8 +538,7 @@ def adminDash(request):
 
     }
 
-    return render(request, 'admin_dash.html', context)
-
+    return render(request, 'station_list.html', context)
 
 def stationDash(request, pk):
     station_id = get_object_or_404(Station, id=pk)

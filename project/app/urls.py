@@ -7,6 +7,7 @@ urlpatterns = [
     path('login/', views.login_user, name='login'),
     path('logout/', views.loggingout, name='logout'),
     path('addStation/', views.addStation, name="addStation"),
+    path('station-list', views.station_list, name='station-list'),
     path('addpatient/', views.addPatient, name='addpatient'),
     path('add-diagnosis/<str:pk>/', views.addDiagnosis, name='add-diagnosis'),
     path('add-morbidity/<str:pk>/', views.addMorbidity, name='add-morbidity'),

@@ -1,74 +1,189 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 
 {% block content %}
+<ul class="nav nav-pills flex-column flex-md-row mb-3" style="justify-content: right;">
+  <li class="nav-item">
+    <a class="nav-link active" href="{% url 'logout' %}"><i class="bx bx-log-out"></i>
+      Logout</a>
+  </li>
+  
+</ul>
+
 <!-- Content wrapper -->
 <div class="content-wrapper">
   <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-semibold py-3 mb-4"><span class="text-muted fw-light">Welcome To /</span>Dashboard</h4>
 
-    <!-- Toast with Placements -->
-    <div class="bs-toast toast toast-placement-ex m-2" role="alert" aria-live="assertive" aria-atomic="true"
-      data-delay="2000">
-    </div>
-  <!-- Content -->
-  <div class="row">
-    <div class="col-md-12">
+    <!-- Content -->
+    <div class="row">
+      <div class="col-md-12">
         <ul class="nav nav-pills flex-column flex-md-row mb-3">
-            <li class="nav-item">
-                <a class="nav-link active" href="javascript:void(0);"><i class="bx bxl-telegram me-1"></i>
-                    List of Stations</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'add-user' %}"><i class='bx bx-add-to-queue'></i> Add a New User</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'addStation' %}"><i class="bx bxs-building-house"></i> Add a New Station
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'user-list' %}"><i class="bx bx-list-ul"></i>
-                    List of Users</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'camp-list' %}"><i class="bx bx-home-smile"></i> Campaigns
-              </a>
+          <li class="nav-item">
+            <a class="nav-link active" href="javascript:void(0);"><i class="bx bxl-telegram me-1"></i>
+              Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'station-list' %}"><i class="bx bx-list-ul"></i>
+              List of Stations</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'add-user' %}"><i class='bx bx-add-to-queue'></i> Add a New User</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'addStation' %}"><i class="bx bxs-building-house"></i> Add a New Station
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'user-list' %}"><i class="bx bx-list-ul"></i>
+              List of Users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'camp-list' %}"><i class="bx bx-home-smile"></i> Campaigns
+            </a>
           </li>
         </ul>
-  
-    <!-- Toast with Placements -->
-    <!-- Basic Bootstrap Table -->
-    <div class="card">
-      <h5 class="card-header">List of Stations</h5>
-      <div class="table-responsive text-nowrap">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Address</th>
-              <th>Date Created</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody class="table-border-bottom-0">
-            {% for s in station_list %}
-            <tr>
+      </div>
+    </div>
+    <div class="layout-wrapper layout-content-navbar">
 
-              <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{s.name}}</strong></td>
-              <td>{{s.category}}</td>
-              <td>{{s.address}}</td>
-              <td>{{s.date_created}}</td>
-              <td>
-                <a href="{% url 'sta-dashh' s.id %}" class="btn btn-primary me-2">View</a>
-              </td>
-              <td>
-                <a href="{% url 'make-admin' s.id %}" class="btn btn-primary me-2">Add Admin</a>
-              </td>
-            {% endfor %}
-          </tbody>
-        </table>
+      <!-- Content wrapper -->
+      <div class="content-wrapper">
+        <div class="container-xxl flex-grow-1 container-p-y">
+          <div class="row">
+            <div class="col-lg-8 mb-4 order-0">
+              <div class="card">
+                <div class="d-flex align-items-end row">
+                  <div>
+                    <div class="card-body">
+                      <h5 class="card-title text-primary">Malaria Map</h5>
+                      <div id="mapid" style="height: 400px;"></div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 order-1">
+              <div class="row">
+                <div class="col-lg-6 col-md-12 col-6 mb-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <span class="fw-semibold d-block mb-1">Total Stations</span>
+                      <h3 class="card-title mb-2">{{stations}}</h3>
+                      <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i>0</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-6 mb-4">
+                  <div class="card">
+                    <div class="card-body">
+
+                      <span class="fw-semibold d-block mb-1">Malaria Campaigns</span>
+                      <h3 class="card-title text-nowrap mb-1">{{campaigns}}</h3>
+                      <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i>0</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 mb-4">
+                  <div class="card">
+                    <div class="card-body">
+
+                      <span class="d-block mb-1">Patient Tested</span>
+                      <h3 class="card-title text-nowrap mb-2">{{pat_count}}</h3>
+                      <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i>0</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 mb-4">
+                  <div class="card">
+                    <div class="card-body">
+
+                      <span class="fw-semibold d-block mb-1">Positive Cases</span>
+                      <h3 class="card-title mb-2">{{pos_cases}}</h3>
+                      <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 0</small>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="col-12 mb-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
+                        <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
+                          <div class="card-title">
+                            <h5 class="text-nowrap mb-2">Yearly Malaria Profile</h5>
+                            <span class="badge bg-label-warning rounded-pill">Year 2023</span>
+                          </div>
+                          <div class="mt-sm-auto">
+                            <small class="text-success text-nowrap fw-semibold"><i
+                                class="bx bx-chevron-up"></i>0</small>
+                            <h3 class="mb-0">{{pos_cases}}</h3>
+                          </div>
+                        </div>
+                        <div id="profileReportChart"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Total Revenue --
+            <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+              <div class="card">
+                <div class="row row-bordered g-0">
+                  <div class="col-md-12">
+                    <h5 class="card-header m-0 me-2 pb-3">Malaria Cases by Months</h5>
+                    <div id="totalRevenueChart" class="px-2"></div>
+                  </div>
+    
+                </div>
+              </div>
+            </div>
+             Total Revenue -->
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
-{% endblock content %}
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+  <script type="text/javascript">
+    var mymap = L.map('mapid').setView([9.0820, 8.6753], 6);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(mymap);
+
+    var redIcon = new L.Icon({
+      iconUrl: 'data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%3E%3Cpath%20d%3D%22M20%200%20C31%200%2040%209%2040%2020%20C40%2033%2020%2040%2020%2040%20C20%2040%200%2033%200%2020%20C0%209%209%200%2020%200%22%20fill%3D%22%23FF5733%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E',
+      iconSize: [10, 10],
+      iconAnchor: [5, 5],
+      popupAnchor: [0, -10]
+    });
+
+    var markers = JSON.parse('{{ markers_json|escapejs|safe }}');
+
+    for (var i = 0; i < markers.length; i++) {
+      var marker = L.marker(markers[i].location, { icon: redIcon }).addTo(mymap);
+      marker.bindPopup(markers[i].popup);
+    }
+
+    var blueIcon = new L.Icon({
+      iconUrl: 'data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%3E%3Cpath%20d%3D%22M20%200%20C31%200%2040%209%2040%2020%20C40%2033%2020%2040%2020%2040%20C20%2040%200%2033%200%2020%20C0%209%209%200%2020%200%22%20fill%3D%22%230000FF%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E',
+      iconSize: [10, 10],
+      iconAnchor: [5, 5],
+      popupAnchor: [0, -10]
+    });
+
+    var markers2 = JSON.parse('{{ markers_json2|escapejs|safe }}');
+
+    for (var i = 0; i < markers2.length; i++) {
+      var marker = L.marker(markers2[i].location, { icon: blueIcon }).addTo(mymap);
+      marker.bindPopup(markers2[i].popup);
+    }
+  </script>
+
+  {% endblock content %}
